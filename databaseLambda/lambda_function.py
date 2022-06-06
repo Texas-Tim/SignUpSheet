@@ -36,8 +36,11 @@ def lambda_handler(event, context):
 
 
     try:
-        #Built in logic: fill up the first half of of teams first, then add 25% more teams, then open up all teams
-        #Not everyone shows up and we want to limit the first 50% of teams to fill up first
+        #Built in logic: fill up the first half of of teams first, then add 25% more teams, then open up all teams (might provide even more rounds in the future)
+        #Not everyone shows up and we want to limit the first 50% of teams to fill up first. To add additional rounds, simply change the logic so that max teams is a percentage
+        #of the inputted Max Teams
+
+        #Determine Distribution Round
         while math.ceil(attendee/TEAM_SIZE) > max_teams:
             print("Attendee: ", attendee)
             if team_distribution_round == 1:
@@ -50,6 +53,8 @@ def lambda_handler(event, context):
                 return 'All teams are full, failed to add attendee {} to the event.'.format(event['firstName'])
         #attempt to find a team, using less strict rules each pass
         print(f"Team distribution round: {team_distribution_round}")
+
+        #Run up to three passes over the databases
         return team_registration(event, attendee, max_teams)
 
 
