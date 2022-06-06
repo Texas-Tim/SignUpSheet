@@ -3,10 +3,7 @@ AWS Game Day Sign Up Sheet
 
 AWS Game Day web application for use with customers the morning of the event as a way to assign teams in an automatic fashion.
 
-Because this tool uses CloudFront as its front facing page, it would be available to anyone using any platform. If the main event platform provides a list of links to pre-established breakout rooms, you may also upload an Excel file with those links. If you do not have links, or the platform you are using does not provide them ahead of time (Such as Zoom), you can simply ignore this part.
-
-This tool is intended to automatically fill up the first 50% of all available teams first, then build teams incrementally after that. Each team will be determined first based on the participants experience with AWS, and then if there are not enough teams, it will simply fill up each team until they are full.
-
+![Architecture Diagram](./images/Sign_Up_Sheet_Diagram.png)
 
 # Prerequisites
 
@@ -82,6 +79,8 @@ You must spin up the CFT in the same region as the email you have verified previ
 Uses a static website hosted in S3. HTML for the front end and JavaScript for the backend. Users submit their information which simply forwards it to an API and then to a Lambda Function. The website automatically points to the newly created API upon creation
 
 # Database Lambda Function Logic
+
+![Architecture Diagram](./images/Team_Distribution_Logic_Diagram.png)
 
 First lambda (Database Update Function) receives the participant information, including:
 1. Full Name

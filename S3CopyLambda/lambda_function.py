@@ -53,6 +53,7 @@ def lambda_handler(event, context):
                     print("Error: " + str(error))
                     result['Status'] = 'Failed'
                     # Respond to CloudFormation with a failure to process request
+                    cfnresponse.send(event, context, cfnresponse.FAILED, result)
                     return result
     elif request_type == 'Delete':
         page_iterator = paginator.paginate(Bucket=DESTINATION_BUCKET)
@@ -73,9 +74,11 @@ def lambda_handler(event, context):
                     print("Error: " + str(error))
                     result['Status'] = 'Failed'
                     # Respond to CloudFormation with a failure to process request
+                    cfnresponse.send(event, context, cfnresponse.FAILED, result)
                     return result
     else:
         print("Error in CFTCode")
 
     result['Status'] = 'Success'
+    cfnresponse.send(event, context, cfnresponse.SUCCESS, result)
     return result
