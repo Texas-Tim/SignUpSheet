@@ -1,0 +1,1225 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "DefaultRegion": {
+            "Description": "Region that your verified SES Email is in",
+            "Type": "String",
+            "Default": "us-east-1"
+        },
+        "SESVerifiedEmail": {
+            "Description": "SES Verified Email with which to send updates to attendees",
+            "Type": "String"
+        },
+        "LambdaFilesBucket": {
+            "Description": "S3 Bucket that stores the Lambda Function source code",
+            "Type": "String",
+            "Default": "aws-game-day-sign-up"
+        },
+        "LambdaZipNameDatabase": {
+            "Description": "Zip file for Database Lambda code",
+            "Type": "String",
+            "Default": "Lambdas/databaseLambda.zip"
+        },
+        "LambdaZipNameEmail": {
+            "Description": "Zip file for Email Lambda code",
+            "Type": "String",
+            "Default": "Lambdas/emailLambda.zip"
+        },
+        "LambdaZipNameWebsite": {
+            "Description": "Zip file for Website Lambda code",
+            "Type": "String",
+            "Default": "Lambdas/S3CopyLambda.zip"
+        },
+        "SourceBucket": {
+            "Description": "Source of Website Files to copy over",
+            "Type": "String",
+            "Default": "aws-game-day-sign-up"
+        },
+        "MaxTeams": {
+            "Description": "Maximum number of teams spun up in Event Engine",
+            "Type": "String"
+        },
+        "MaxTeamSize": {
+            "Description": "Maximum size of each team per Event Engine",
+            "Type": "String",
+            "Default": "4"
+        },
+        "MainEventRoom": {
+            "Description": "URL to main event room",
+            "Type": "String"
+        },
+        "APIGatewayEndpointType": {
+            "Description": "Valid Endpoint Types Include: EDGE, REGIONAL, PRIVATE",
+            "Type": "String",
+            "Default": "REGIONAL"
+        }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "b68004d7-7451-4406-abe9-04c09eefa08a": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 630,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "db3cdf5a-059a-4c98-bb5c-969c9ff67ada": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 630,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "5245b774-6fbf-49bb-a7a7-56029743f998": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 750,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "87e562dc-c1fb-41d3-9b3a-7a17e2eaecf1": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 750,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": [],
+                "dependson": [
+                    "7416dd83-0ac8-459a-9c02-5ce036ad451f",
+                    "f47ca9e2-29d6-4f60-bc8a-26f331ac0b24"
+                ]
+            },
+            "f47ca9e2-29d6-4f60-bc8a-26f331ac0b24": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 900,
+                    "y": 180
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "7416dd83-0ac8-459a-9c02-5ce036ad451f": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 900,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "3ade7719-8008-4ec6-8075-f57130a82b6f": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 510,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "341f1a3c-63be-48d9-a700-699514bf0908": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 210,
+                    "y": 240
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "e63fa337-8dd5-4342-bf9f-093a32744ece": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 360,
+                    "y": 60
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "e7254462-a40b-44a2-bae1-99a3dff4165e": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "c3dd8462-e5d4-44fd-b566-a218860db6ec": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 990,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "368dccdc-2396-4edd-ad8f-3d8d8f32f573": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1110,
+                    "y": 90
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "f16c2fb4-c0af-4de4-b31b-30756618b414": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 210,
+                    "y": 60
+                },
+                "z": 1,
+                "embeds": [],
+                "dependson": [
+                    "e63fa337-8dd5-4342-bf9f-093a32744ece"
+                ]
+            },
+            "3233e565-2b2d-49c9-8cc3-f668bbb55b15": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 360,
+                    "y": 240
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "9f034d1d-ba76-499b-aa32-7f868e083868": {
+                "size": {
+                    "width": 650,
+                    "height": 390
+                },
+                "position": {
+                    "x": 900,
+                    "y": 360
+                },
+                "z": 1,
+                "embeds": [
+                    "5c004624-10ae-4847-ac83-97047940d4b1"
+                ]
+            },
+            "7885edd4-a3ab-4400-b929-37c917367593": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1500,
+                    "y": 150
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "5c004624-10ae-4847-ac83-97047940d4b1": {
+                "size": {
+                    "width": 470,
+                    "height": 210
+                },
+                "position": {
+                    "x": 960,
+                    "y": 420
+                },
+                "z": 2,
+                "parent": "9f034d1d-ba76-499b-aa32-7f868e083868",
+                "embeds": [
+                    "817c2e63-d6ed-4666-94f2-8ab39dc31ef8",
+                    "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab"
+                ]
+            },
+            "817c2e63-d6ed-4666-94f2-8ab39dc31ef8": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1240,
+                    "y": 480
+                },
+                "z": 3,
+                "parent": "5c004624-10ae-4847-ac83-97047940d4b1",
+                "embeds": [],
+                "iscontainedinside": [
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1"
+                ]
+            },
+            "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1120,
+                    "y": 480
+                },
+                "z": 3,
+                "parent": "5c004624-10ae-4847-ac83-97047940d4b1",
+                "embeds": [],
+                "iscontainedinside": [
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1"
+                ]
+            },
+            "b06cada6-4611-443b-aeb6-cd4ee4a6c76d": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1500,
+                    "y": 300
+                },
+                "z": 1,
+                "embeds": [],
+                "dependson": [
+                    "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab"
+                ]
+            },
+            "0d3cdf13-5818-4b29-953e-b07ea097c7ae": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 510,
+                    "y": 180
+                },
+                "z": 0,
+                "embeds": [],
+                "isassociatedwith": [
+                    "b68004d7-7451-4406-abe9-04c09eefa08a"
+                ]
+            }
+        }
+    },
+    "Resources": {
+        "LambdaSendEmail": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Description": "Lambda Function to update Team Metadata in the DDB table",
+                "Runtime": "python3.9",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "SendEmailRole",
+                        "Arn"
+                    ]
+                },
+                "Handler": "lambda_function.lambda_handler",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaFilesBucket"
+                    },
+                    "S3Key": {
+                        "Ref": "LambdaZipNameEmail"
+                    }
+                },
+                "Timeout": 120,
+                "Environment": {
+                    "Variables": {
+                        "MAIN_CONFERENCE_ROOM": {
+                            "Ref": "MainEventRoom"
+                        },
+                        "REGION": {
+                            "Ref": "DefaultRegion"
+                        },
+                        "SENDER": {
+                            "Ref": "SESVerifiedEmail"
+                        }
+                    }
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "db3cdf5a-059a-4c98-bb5c-969c9ff67ada"
+                }
+            },
+            "DependsOn": [
+                "SendEmailRole"
+            ]
+        },
+        "UpdateParticipantRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Path": "/service-role/",
+                "Policies": [
+                    {
+                        "PolicyName": "DynamoDBReadWrite",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Sid": "VisualEditor0",
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "dynamodb:BatchGetItem",
+                                        "dynamodb:BatchWriteItem",
+                                        "dynamodb:PutItem",
+                                        "dynamodb:DeleteItem",
+                                        "dynamodb:GetItem",
+                                        "dynamodb:Scan",
+                                        "dynamodb:Query",
+                                        "dynamodb:UpdateItem",
+                                        "dynamodb:UpdateTable"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "GameDayParticipants",
+                                                "Arn"
+                                            ]
+                                        },
+                                        {
+                                            "Fn::GetAtt": [
+                                                "GameDayTeams",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "5245b774-6fbf-49bb-a7a7-56029743f998"
+                }
+            },
+            "DependsOn": [
+                "GameDayTeams",
+                "GameDayParticipants"
+            ]
+        },
+        "SendEmailRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Path": "/service-role/",
+                "Policies": [
+                    {
+                        "PolicyName": "SendSESEmailandDDBInvoke",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ses:SendEmail",
+                                        "ses:SendTemplatedEmail",
+                                        "ses:SendRawEmail"
+                                    ],
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogGroup",
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": "arn:aws:logs:*:*:*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "lambda:InvokeFunction"
+                                    ],
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "dynamodb:DescribeStream",
+                                        "dynamodb:GetRecords",
+                                        "dynamodb:GetShardIterator",
+                                        "dynamodb:ListStreams"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "87e562dc-c1fb-41d3-9b3a-7a17e2eaecf1"
+                }
+            },
+            "DependsOn": [
+                "GameDayParticipants",
+                "GameDayTeams"
+            ]
+        },
+        "GameDayParticipants": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "AttendeeID",
+                        "AttributeType": "N"
+                    },
+                    {
+                        "AttributeName": "Team",
+                        "AttributeType": "N"
+                    }
+                ],
+                "KeySchema": [
+                    {
+                        "AttributeName": "AttendeeID",
+                        "KeyType": "HASH"
+                    },
+                    {
+                        "AttributeName": "Team",
+                        "KeyType": "RANGE"
+                    }
+                ],
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": "5",
+                    "WriteCapacityUnits": "5"
+                },
+                "StreamSpecification": {
+                    "StreamViewType": "NEW_IMAGE"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "f47ca9e2-29d6-4f60-bc8a-26f331ac0b24"
+                }
+            }
+        },
+        "GameDayTeams": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "Team",
+                        "AttributeType": "N"
+                    }
+                ],
+                "KeySchema": [
+                    {
+                        "AttributeName": "Team",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": "5",
+                    "WriteCapacityUnits": "5"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7416dd83-0ac8-459a-9c02-5ce036ad451f"
+                }
+            }
+        },
+        "LambdaUpdateParticipant": {
+            "Type": "AWS::Lambda::Function",
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "b68004d7-7451-4406-abe9-04c09eefa08a"
+                }
+            },
+            "Properties": {
+                "Description": "Lambda Function to update participants in the DDB table",
+                "Runtime": "python3.9",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "UpdateParticipantRole",
+                        "Arn"
+                    ]
+                },
+                "Handler": "lambda_function.lambda_handler",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaFilesBucket"
+                    },
+                    "S3Key": {
+                        "Ref": "LambdaZipNameDatabase"
+                    }
+                },
+                "Timeout": 120,
+                "Environment": {
+                    "Variables": {
+                        "MAX_NUM_TEAMS": {
+                            "Ref": "MaxTeams"
+                        },
+                        "REGION": {
+                            "Ref": "DefaultRegion"
+                        },
+                        "REGISTRATION_TABLE": {
+                            "Ref": "GameDayParticipants"
+                        },
+                        "TEAM_SIZE": {
+                            "Ref": "MaxTeamSize"
+                        },
+                        "TEAM_TABLE": {
+                            "Ref": "GameDayTeams"
+                        }
+                    }
+                }
+            },
+            "DependsOn": [
+                "UpdateParticipantRole"
+            ]
+        },
+        "LambdaTrigger": {
+            "Type": "AWS::Lambda::EventSourceMapping",
+            "Properties": {
+                "EventSourceArn": {
+                    "Fn::GetAtt": [
+                        "GameDayParticipants",
+                        "StreamArn"
+                    ]
+                },
+                "FunctionName": {
+                    "Ref": "LambdaSendEmail"
+                },
+                "StartingPosition": "LATEST"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3ade7719-8008-4ec6-8075-f57130a82b6f"
+                }
+            },
+            "DependsOn": [
+                "LambdaSendEmail"
+            ]
+        },
+        "GameDayWebsiteBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "WebsiteConfiguration": {
+                    "ErrorDocument": "invalid.html",
+                    "IndexDocument": "registrationForm.html"
+                },
+                "PublicAccessBlockConfiguration": {
+                    "BlockPublicAcls": true,
+                    "BlockPublicPolicy": true,
+                    "IgnorePublicAcls": true,
+                    "RestrictPublicBuckets": true
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e63fa337-8dd5-4342-bf9f-093a32744ece"
+                }
+            }
+        },
+        "GameDayWebsiteBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+                "Bucket": {
+                    "Ref": "GameDayWebsiteBucket"
+                },
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "s3:GetObject"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ",
+                                            {
+                                                "Ref": "GameDayCloudFrontIdentity"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            },
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:s3:::",
+                                        {
+                                            "Ref": "GameDayWebsiteBucket"
+                                        },
+                                        "/*"
+                                    ]
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "f16c2fb4-c0af-4de4-b31b-30756618b414"
+                }
+            },
+            "DependsOn": [
+                "GameDayWebsiteBucket",
+                "GameDayCloudFrontIdentity"
+            ]
+        },
+        "LambdaS3WebsiteFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Description": "Copy website files to custom S3 Bucket",
+                "FunctionName": "LambdaS3Website",
+                "Handler": "lambda_function.lambda_handler",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "AWSLambdaS3ExecutionRole",
+                        "Arn"
+                    ]
+                },
+                "Timeout": 360,
+                "Runtime": "python3.9",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaFilesBucket"
+                    },
+                    "S3Key": {
+                        "Ref": "LambdaZipNameWebsite"
+                    }
+                },
+                "Environment": {
+                    "Variables": {
+                        "DESTINATION_BUCKET": {
+                            "Ref": "GameDayWebsiteBucket"
+                        },
+                        "SOURCE_BUCKET": {
+                            "Ref": "SourceBucket"
+                        }
+                    }
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "c3dd8462-e5d4-44fd-b566-a218860db6ec"
+                }
+            },
+            "DependsOn": [
+                "AWSLambdaS3ExecutionRole"
+            ]
+        },
+        "Lambdainvoke": {
+            "Type": "AWS::CloudFormation::CustomResource",
+            "Version": "1.0",
+            "Properties": {
+                "ServiceToken": {
+                    "Fn::GetAtt": [
+                        "LambdaS3WebsiteFunction",
+                        "Arn"
+                    ]
+                },
+                "FunctionName": "LambdaS3WebsiteFunction"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "368dccdc-2396-4edd-ad8f-3d8d8f32f573"
+                }
+            },
+            "DependsOn": [
+                "LambdaS3WebsiteFunction"
+            ]
+        },
+        "AWSLambdaS3ExecutionRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Path": "/service-role/",
+                "Policies": [
+                    {
+                        "PolicyName": "S3ReadWrite",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:PutObject",
+                                        "s3:GetObjectAcl",
+                                        "s3:GetObject",
+                                        "s3:DeleteObject",
+                                        "s3:ListBucket",
+                                        "s3:GetBucketAcl"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "arn:aws:s3:::",
+                                                    {
+                                                        "Ref": "GameDayWebsiteBucket"
+                                                    }
+                                                ]
+                                            ]
+                                        },
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "arn:aws:s3:::",
+                                                    {
+                                                        "Ref": "SourceBucket"
+                                                    }
+                                                ]
+                                            ]
+                                        },
+                                        "arn:aws:s3:::*/*"
+                                    ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "logs:CreateLogGroup",
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:logs:",
+                                                {
+                                                    "Ref": "DefaultRegion"
+                                                },
+                                                ":",
+                                                {
+                                                    "Ref": "AWS::AccountId"
+                                                },
+                                                ":*"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:logs:",
+                                                {
+                                                    "Ref": "DefaultRegion"
+                                                },
+                                                ":",
+                                                {
+                                                    "Ref": "AWS::AccountId"
+                                                },
+                                                ":log-group:/aws/lambda/LambdaS3Website:*"
+                                            ]
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "e7254462-a40b-44a2-bae1-99a3dff4165e"
+                }
+            },
+            "DependsOn": [
+                "GameDayWebsiteBucket"
+            ]
+        },
+        "GameDayCloudFrontIdentity": {
+            "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+            "Properties": {
+                "CloudFrontOriginAccessIdentityConfig": {
+                    "Comment": "Origin Access Identity for the Game Day Website App"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "341f1a3c-63be-48d9-a700-699514bf0908"
+                }
+            }
+        },
+        "CloudFrontDistribution": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+                "DistributionConfig": {
+                    "DefaultCacheBehavior": {
+                        "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                        "Compress": true,
+                        "DefaultTTL": 86400,
+                        "MaxTTL": 31536000,
+                        "TargetOriginId": {
+                            "Fn::Sub": "GameDayWebsite-${AWS::StackName}-root"
+                        },
+                        "ViewerProtocolPolicy": "redirect-to-https"
+                    },
+                    "Enabled": true,
+                    "HttpVersion": "http2",
+                    "DefaultRootObject": "registrationForm.html",
+                    "IPV6Enabled": true,
+                    "Origins": [
+                        {
+                            "DomainName": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        {
+                                            "Ref": "GameDayWebsiteBucket"
+                                        },
+                                        ".s3.",
+                                        {
+                                            "Ref": "DefaultRegion"
+                                        },
+                                        ".amazonaws.com"
+                                    ]
+                                ]
+                            },
+                            "Id": {
+                                "Fn::Sub": "GameDayWebsite-${AWS::StackName}-root"
+                            },
+                            "S3OriginConfig": {
+                                "OriginAccessIdentity": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "origin-access-identity/cloudfront/",
+                                            {
+                                                "Ref": "GameDayCloudFrontIdentity"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "PriceClass": "PriceClass_All"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3233e565-2b2d-49c9-8cc3-f668bbb55b15"
+                }
+            }
+        },
+        "GameDayAPIGateway": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+                "Description": "Game Day API Gateway",
+                "EndpointConfiguration": {
+                    "Types": [
+                        {
+                            "Ref": "APIGatewayEndpointType"
+                        }
+                    ]
+                },
+                "Name": "Game Day Registration Form"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "9f034d1d-ba76-499b-aa32-7f868e083868"
+                }
+            }
+        },
+        "apiGatewayResource": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+                "ParentId": {
+                    "Fn::GetAtt": [
+                        "GameDayAPIGateway",
+                        "RootResourceId"
+                    ]
+                },
+                "PathPart": "register",
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "5c004624-10ae-4847-ac83-97047940d4b1"
+                }
+            }
+        },
+        "apiGatewayOptionsMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "Integration": {
+                    "RequestTemplates": {
+                        "application/json": "{'statusCode': 200}"
+                    },
+                    "IntegrationResponses": [
+                        {
+                            "ResponseParameters": {
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                                "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            "StatusCode": "200"
+                        }
+                    ],
+                    "Type": "MOCK"
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": {
+                                "Ref": "apiGatewayModel"
+                            }
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": false,
+                            "method.response.header.Access-Control-Allow-Methods": false,
+                            "method.response.header.Access-Control-Allow-Origin": false
+                        },
+                        "StatusCode": "200"
+                    }
+                ],
+                "ResourceId": {
+                    "Ref": "apiGatewayResource"
+                },
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "817c2e63-d6ed-4666-94f2-8ab39dc31ef8"
+                }
+            }
+        },
+        "apiGatewayPostMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "POST",
+                "Integration": {
+                    "PassthroughBehavior": "WHEN_NO_TEMPLATES",
+                    "IntegrationHttpMethod": "POST",
+                    "IntegrationResponses": [
+                        {
+                            "ResponseParameters": {
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            "StatusCode": "200"
+                        }
+                    ],
+                    "Type": "AWS",
+                    "Uri": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "arn:aws:apigateway:",
+                                {
+                                    "Ref": "DefaultRegion"
+                                },
+                                ":lambda:path/2015-03-31/functions/",
+                                {
+                                    "Fn::GetAtt": [
+                                        "LambdaUpdateParticipant",
+                                        "Arn"
+                                    ]
+                                },
+                                "/invocations"
+                            ]
+                        ]
+                    }
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": {
+                                "Ref": "apiGatewayModel"
+                            }
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": false
+                        },
+                        "StatusCode": "200"
+                    }
+                ],
+                "ResourceId": {
+                    "Ref": "apiGatewayResource"
+                },
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab"
+                }
+            }
+        },
+        "apiGatewayModel": {
+            "Type": "AWS::ApiGateway::Model",
+            "Properties": {
+                "ContentType": "application/json",
+                "Name": "GameDayModel",
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                },
+                "Schema": {}
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7885edd4-a3ab-4400-b929-37c917367593"
+                }
+            }
+        },
+        "apiGatewayDeployment": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                },
+                "StageName": "V1"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "b06cada6-4611-443b-aeb6-cd4ee4a6c76d"
+                }
+            },
+            "DependsOn": [
+                "apiGatewayPostMethod",
+                "GameDayAPIGateway"
+            ]
+        },
+        "LambdaTriggerAPIGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "LambdaUpdateParticipant",
+                        "Arn"
+                    ]
+                },
+                "SourceArn": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "arn:aws:execute-api:",
+                            {
+                                "Ref": "DefaultRegion"
+                            },
+                            ":",
+                            {
+                                "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                                "Ref": "GameDayAPIGateway"
+                            },
+                            "/*/POST/register"
+                        ]
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0d3cdf13-5818-4b29-953e-b07ea097c7ae"
+                }
+            }
+        }
+    }
+}
