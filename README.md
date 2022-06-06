@@ -1,9 +1,18 @@
 # SignUpSheet
-AWS Game Day Sign Up Sheet
-
 AWS Game Day web application for use with customers the morning of the event as a way to assign teams in an automatic fashion.
 
 ![Architecture Diagram](./images/Sign_Up_Sheet_Diagram.png)
+
+
+# TLDR
+
+1. Upload files from S3 Bucket Files to your own S3 Bucket
+2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links)
+2. Verify an Email in SES in the region you want to run the application
+3. Ensure you are out of Sandbox mode in SES
+4. Run the **GameDaySignUpSheet** CFT template in the region your verified email is in
+5. Provide the Cloudfront link to your attendees the morning of the event
+
 
 # Prerequisites
 
@@ -72,13 +81,13 @@ You must spin up the CFT in the same region as the email you have verified previ
 
 
 
-## Application Logic
+# Application Logic
 
-# Front End
+## Front End
 
 Uses a static website hosted in S3. HTML for the front end and JavaScript for the backend. Users submit their information which simply forwards it to an API and then to a Lambda Function. The website automatically points to the newly created API upon creation
 
-# Database Lambda Function Logic
+## Database Lambda Function Logic
 
 ![Architecture Diagram](./images/Team_Distribution_Logic_Diagram.png)
 
@@ -105,6 +114,6 @@ Once a team is found, the lambda updates the Participant database with the team 
 
 If all the teams are full, the participant will receive a notification that the assignments failed. If this happens, make sure to check your MaxTeams parameter in the CFT template.
 
-#Email Lambda Function Logic
+##Email Lambda Function Logic
 
 The second Lambda watches the Participant database streams for any changes and automatically sends an email to the participants using the provided email. The lambda assumes the email provided from the CFT template is SES verified and the account is not in Sandbox mode. THERE IS NO NOTIFICATION IF YOU HAVE NOT PROPERLY SET UP THE SES EMAIL! IT WILL SIMPLY FAIL!
