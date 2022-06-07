@@ -7,11 +7,12 @@ AWS Game Day web application for use with customers the morning of the event as 
 # TLDR
 
 1. Upload files from S3 Bucket Files to your own S3 Bucket
-2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links)
+2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links) [Not Implemented!]
 2. Verify an Email in SES in the region you want to run the application
 3. Ensure you are out of Sandbox mode in SES
 4. Run the **GameDaySignUpSheet** CFT template in the region your verified email is in
-5. Provide the Cloudfront link to your attendees the morning of the event
+5. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT [Not Implemented!])
+6. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary [Not Implemented!]
 
 
 # Prerequisites
