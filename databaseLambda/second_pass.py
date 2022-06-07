@@ -2,6 +2,7 @@ import json
 import smtplib
 import boto3
 import logging
+logger = logging.getLogger()
 from botocore.exceptions import ClientError
 import os
 from functions import createTeam
@@ -14,7 +15,7 @@ TEAM_SIZE = os.environ.get('TEAM_SIZE')
 TABLE_TEAM = os.environ.get('TEAM_TABLE')
 
 # Create a new DynamoDB resource and specify a region.
-client = boto3.client('dynamodb',region_name=AWS_REGION)
+ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
 
 
 def secondPass(max_team_size, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
@@ -66,7 +67,7 @@ def secondPass(max_team_size, teams, attendee, customer, firstName, fullName, re
                         return True
 
     if notComplete:
-        team_count = client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
+        team_count = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
         team_num = team_count+1
         if team_num > max_teams:
             print("no available teams! All teams are full!")

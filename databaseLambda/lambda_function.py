@@ -2,12 +2,14 @@ import json
 import smtplib
 import boto3
 import logging
+logger = logging.getLogger()
 from botocore.exceptions import ClientError
 import os
 import math
 from first_pass import firstPass
 from second_pass import secondPass
 from third_pass import thirdPass
+
 
 # If necessary, replace us-east-1 with the AWS Region you're using for Amazon SES.
 AWS_REGION = os.environ.get('REGION')
@@ -20,14 +22,15 @@ TABLE_TEAM = os.environ.get('TEAM_TABLE')
 
 
 # Create a new DynamoDB resource and specify a region.
-client = boto3.client('dynamodb',region_name=AWS_REGION)
+ddb_client = boto3.client('dynamodb', region_name=AWS_REGION)
+
 
 print('Loading function')
 
 
 def lambda_handler(event, context):
 
-    count = client.scan(TableName=TABLE_REGISTER, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
+    count = ddb_client.scan(TableName=TABLE_REGISTER, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
     attendee = count+1
     print(event)
     print(context)
@@ -60,8 +63,7 @@ def lambda_handler(event, context):
 
     except ClientError as err:
         logger.error(
-            f"Couldn't update table {TABLE_REGISTER}",
-            err.response['Error']['Code'], err.response['Error']['Message'])
+            f"Couldn't update table {TABLE_REGISTER}")
         raise
     #all teams are full or all passes failed
     else:
@@ -89,7 +91,7 @@ def team_registration(event, attendee, max_teams):
 
     #initialize some useful variables
     fullName = firstName + " " + lastName
-    teams = client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Items']
+    teams = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Items']
 
     #firstPass, strict team requirements
     if firstPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):

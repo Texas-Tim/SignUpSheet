@@ -7,11 +7,11 @@ AWS Game Day web application for use with customers the morning of the event as 
 # TLDR
 
 1. Upload files from S3 Bucket Files to your own S3 Bucket
-2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links) [Not Implemented!]
+2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links)
 2. Verify an Email in SES in the region you want to run the application
 3. Ensure you are out of Sandbox mode in SES
 4. Run the **GameDaySignUpSheet** CFT template in the region your verified email is in
-5. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT [Not Implemented!])
+5. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT)
 6. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary [Not Implemented!]
 
 
@@ -54,12 +54,15 @@ You must spin up the CFT in the same region as the email you have verified previ
 
 
 
-
 # CFT Parameters
+
+**APIGatewayEndpointType**: Type REGIONAL for local events and EDGE for world-wide events. Refers to the Cloudfront caching strategy
 
 **DefaultRegion**: Main region for your stack, should be in the same region as your SES verified email
 
-**SESVerifiedEmail**: Email verified in SES that you will use as a source Sender to pass messages to participants
+**EventRoomFilesBucket**: Bucket you're using to store your Event room files in. I used the same bucket as the Website files
+
+**EventRoomFileKey**: Do not change
 
 **LambdaFilesBucket**: Bucket you're using to store your Lambda files in. I used the same bucket as the Website files
 
@@ -69,15 +72,15 @@ You must spin up the CFT in the same region as the email you have verified previ
 
 **LambdaZipNameWebsite**: Do not change
 
-**SourceBucket**: Bucket you're storing the website files in. I used the same bucket as the Lambda files
-
-**MaxTeams**: Maximum number of teams you expect at the event. This should be the number of attendees that have registered divided by 4 (or max team size)
+**MainEventRoom**: Link to the main event room (Example https://company.zoom.us/u/abte3F12Rq)
 
 **MaxTeamSize**: Maximum number of participants per team, default of 4
 
-**MainEventRoom**: Link to the main event room (Example https://company.zoom.us/u/abte3F12Rq)
+**MaxTeams**: Maximum number of teams you expect at the event. This should be the number of attendees that have registered divided by 4 (or max team size)
 
-**APIGatewayEndpointType**: Type REGIONAL for local events and EDGE for world-wide events. Refers to the Cloudfront caching strategy
+**SESVerifiedEmail**: Email verified in SES that you will use as a source Sender to pass messages to participants
+
+**SourceBucket**: Bucket you're storing the website files in. I used the same bucket as the Lambda files
 
 
 

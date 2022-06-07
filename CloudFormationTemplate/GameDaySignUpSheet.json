@@ -35,6 +35,16 @@
             "Type": "String",
             "Default": "aws-game-day-sign-up"
         },
+        "EventRoomFilesBucket": {
+            "Description": "Source of Event Room Files to copy over",
+            "Type": "String",
+            "Default": "aws-game-day-sign-up"
+        },
+        "EventRoomFileKey": {
+            "Description": "CSV File with existing Breakout Rooms",
+            "Type": "String",
+            "Default": "EventRooms/EventRoomLinks.csv"
+        },
         "MaxTeams": {
             "Description": "Maximum number of teams spun up in Event Engine",
             "Type": "String"
@@ -301,6 +311,15 @@
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1"
                 ]
             },
@@ -319,6 +338,15 @@
                 "iscontainedinside": [
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -362,24 +390,6 @@
                 "isassociatedwith": [
                     "b68004d7-7451-4406-abe9-04c09eefa08a"
                 ]
-            },
-            "f7eefea3-5b3e-41b4-abe9-8c951f350740": {
-                "source": {
-                    "id": "c3dd8462-e5d4-44fd-b566-a218860db6ec"
-                },
-                "target": {
-                    "id": "b06cada6-4611-443b-aeb6-cd4ee4a6c76d"
-                },
-                "z": 4
-            },
-            "f1fcd7b8-cdc3-4828-837e-59e56f6692f6": {
-                "source": {
-                    "id": "b06cada6-4611-443b-aeb6-cd4ee4a6c76d"
-                },
-                "target": {
-                    "id": "817c2e63-d6ed-4666-94f2-8ab39dc31ef8"
-                },
-                "z": 5
             }
         }
     },
@@ -415,6 +425,12 @@
                         },
                         "SENDER": {
                             "Ref": "SESVerifiedEmail"
+                        },
+                        "EVENT_ROOM_BUCKET": {
+                            "Ref": "EventRoomFilesBucket"
+                        },
+                        "EVENT_ROOM_KEY": {
+                            "Ref": "EventRoomFileKey"
                         }
                     }
                 }
@@ -478,6 +494,41 @@
                                             ]
                                         }
                                     ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:GetObject"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                },
+                                                "/EventRooms/*"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                }
+                                            ]
+                                        ]
+                                    }
                                 }
                             ]
                         }
@@ -550,6 +601,41 @@
                                         "dynamodb:ListStreams"
                                     ],
                                     "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:GetObject"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                },
+                                                "/EventRooms/*"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                }
+                                            ]
+                                        ]
+                                    }
                                 }
                             ]
                         }
@@ -671,6 +757,12 @@
                         },
                         "TEAM_TABLE": {
                             "Ref": "GameDayTeams"
+                        },
+                        "EVENT_ROOM_BUCKET": {
+                            "Ref": "EventRoomFilesBucket"
+                        },
+                        "EVENT_ROOM_KEY": {
+                            "Ref": "EventRoomFileKey"
                         }
                     }
                 }
@@ -1265,6 +1357,52 @@
                 "AWS::CloudFormation::Designer": {
                     "id": "0d3cdf13-5818-4b29-953e-b07ea097c7ae"
                 }
+            }
+        }
+    },
+    "Outputs": {
+        "TeamDatabase": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "DynamoDB Teams Table: https://",
+                                    {
+                                        "Ref": "DefaultRegion"
+                                    },
+                                    ".console.aws.amazon.com/dynamodbv2/home?region=",
+                                    {
+                                        "Ref": "DefaultRegion"
+                                    },
+                                    "#item-explorer?initialTagKey=&table=",
+                                    {
+                                        "Ref": "GameDayTeams"
+                                    }
+                                ]
+                            ]
+                        }
+                    ]
+                ]
+            }
+        },
+        "GameDayWebsiteCustomerPage": {
+            "Value": {
+                        "Fn::Join": [
+                            "",
+                            [
+                              "Game Day Sign-Up Sheet Website Customer Page: ",
+                            {
+                                "Fn::GetAtt": [
+                                  "CloudFrontDistribution",
+                                  "DomainName"
+                            ]
+                        }
+                    ]
+                ]
             }
         }
     }
