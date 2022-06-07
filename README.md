@@ -30,7 +30,7 @@ AWS Game Day web application for use with customers the morning of the event as 
 - Amazon SES
 - Amazon SNS
 
-**Use Your Own Account**: You may use a personal account or an Isengarde Account to spin up the resources for this Sign Up Sheet.
+**Use Your Own Account**: You may use a personal account to spin up the resources for this Sign Up Sheet.
 
 **Costs**: There are minor costs associated with this sign up sheet and it should be destroyed soon after the event ends. You may even destroy the resources for this App immediately after finalizing the teams, although I suggest waiting until after the event as some of the team information may be useful when sending prizes to the winners
 
