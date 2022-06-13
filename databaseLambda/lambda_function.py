@@ -32,8 +32,6 @@ def lambda_handler(event, context):
 
     count = ddb_client.scan(TableName=TABLE_REGISTER, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
     attendee = count+1
-    print(event)
-    print(context)
     team_distribution_round = 1
     max_teams = math.ceil(MAX_TEAMS*0.5)
 
@@ -44,8 +42,8 @@ def lambda_handler(event, context):
         #of the inputted Max Teams
 
         #Determine Distribution Round
+        print("Attendee: ", attendee)
         while math.ceil(attendee/TEAM_SIZE) > max_teams:
-            print("Attendee: ", attendee)
             if team_distribution_round == 1:
                 team_distribution_round += 1
                 max_teams = math.ceil(MAX_TEAMS*0.75)
@@ -96,17 +94,17 @@ def team_registration(event, attendee, max_teams):
     #firstPass, strict team requirements
     if firstPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
         print("first Pass Success!")
-        return 'Successfully added attendee {} to the event.'.format(event['firstName'])
+        return 'Successfully added attendee {} to the event. You should receive an email with your personalized invitation soon!'.format(event['firstName'])
 
     #secondPass, avoids all low experience teams
     elif secondPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
         print("second pass Success!")
-        return 'Successfully added attendee {} to the event.'.format(event['firstName'])
+        return 'Successfully added attendee {} to the event. You should receive an email with your personalized invitation soon!'.format(event['firstName'])
 
     #finalPass, just fill the teams
     elif thirdPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
             print("third pass Success!")
-            return 'Successfully added attendee {} to the event.'.format(event['firstName'])
+            return 'Successfully added attendee {} to the event. You should receive an email with your personalized invitation soon!'.format(event['firstName'])
     else:
         print("Code not working, should not reach this text!")
         return "Failed"

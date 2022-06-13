@@ -3,6 +3,10 @@ AWS Game Day web application for use with customers the morning of the event as 
 
 ![Architecture Diagram](./images/Sign_Up_Sheet_Diagram.png)
 
+# TODO
+
+1. Attempt to break things by changing common parameters such as team size, event rooms, etc...
+2. Reach out to specialist for AppSec guidance
 
 # TLDR
 
@@ -12,7 +16,7 @@ AWS Game Day web application for use with customers the morning of the event as 
 3. Ensure you are out of Sandbox mode in SES
 4. Run the **GameDaySignUpSheet** CFT template in the region your verified email is in
 5. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT)
-6. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary [Not Implemented!]
+6. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary
 
 
 # Prerequisites
@@ -69,6 +73,8 @@ You must spin up the CFT in the same region as the email you have verified previ
 **LambdaZipNameDatabase**: Do not change
 
 **LambdaZipNameEmail**: Do not change
+
+**LambdaZipNameTeamChange**: Do not change
 
 **LambdaZipNameWebsite**: Do not change
 

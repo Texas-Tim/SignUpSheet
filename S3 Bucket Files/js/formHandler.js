@@ -61,17 +61,19 @@ $(document).ready(function() {
 
       $.ajax({
         type: 'POST',
-        url: 'Api_Gateway_Endpoint',
+        url: 'https://va4q3t7wo9.execute-api.us-east-1.amazonaws.com/V2/register',
         dataType: "json",
         crossDomain: "true",
         contentType: "application/json; charset=utf-8",
         data: data,
         success: function(res) {
-          $('#form-response').html('<div class="mt-3 alert alert-success" role="alert"><p>Congratulations! You should receive an email with your personalized invitation soon!.</p></div>');
+          console.log(res)
+          $('#form-response').html('<div class="mt-3 alert alert-success" role="alert"><p>'+res+'</p></div>');
           $('#yobutton').prop('hidden', true);
-          $('#yobutton').text('Preferences saved!');
+          $('#yobutton').text('Thanks for submitting!');
         },
         error: function(jqxhr, status, exception) {
+          console.log(res)
           $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
           $('#yobutton').prop('disabled', false);
         }

@@ -6,7 +6,8 @@ import cfnresponse
 SOURCE_BUCKET = os.environ.get('SOURCE_BUCKET')
 DESTINATION_BUCKET = os.environ.get('DESTINATION_BUCKET')
 
-API_GATEWAY_ENDPOINT = os.environ.get('API_GATEWAY')
+API_GATEWAY_FIRST_ENDPOINT = os.environ.get('API_GATEWAY_FIRST')
+API_GATEWAY_SECOND_ENDPOINT = os.environ.get('API_GATEWAY_SECOND')
 
 s3_client = boto3.client('s3')
 
@@ -33,12 +34,22 @@ def lambda_handler(event, context):
                         #replace Api Endpoint in backend
                         response = s3_client.get_object(Bucket=SOURCE_BUCKET, Key=key)
                         data = response['Body'].read().decode('utf-8')
-                        data = data.replace("Api_Gateway_Endpoint", API_GATEWAY_ENDPOINT)
+                        data = data.replace("Api_Gateway_Endpoint", API_GATEWAY_FIRST_ENDPOINT)
                         result = s3_client.put_object(
                             Body=data,
                             Bucket=DESTINATION_BUCKET,
                             Key=key)['ResponseMetadata']
+                    elif key == "js/updateParticipant.js":
+                        print(f"re-writing {key}")
 
+                        #replace Api Endpoint in backend
+                        response = s3_client.get_object(Bucket=SOURCE_BUCKET, Key=key)
+                        data = response['Body'].read().decode('utf-8')
+                        data = data.replace("Api_Gateway_Endpoint", API_GATEWAY_SECOND_ENDPOINT)
+                        result = s3_client.put_object(
+                            Body=data,
+                            Bucket=DESTINATION_BUCKET,
+                            Key=key)['ResponseMetadata']
                     else:
                         print(f"Moving {key}")
 

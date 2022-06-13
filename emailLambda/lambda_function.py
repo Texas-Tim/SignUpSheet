@@ -19,6 +19,7 @@ print('Loading function')
 def lambda_handler(event, context):
     # Replace recipient@example.com with a "To" address. If your account
     # is still in the sandbox, this address must be verified.
+    print("event: ", event)
 
     key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
 
@@ -35,21 +36,21 @@ def lambda_handler(event, context):
 
 
 
-
-
-
 def sendEmailWithLink(event, teams):
     recipient = event["Records"][0]['dynamodb']['NewImage']["Email"]["S"]
     team = event["Records"][0]['dynamodb']['Keys']["Team"]["N"]
     name = event["Records"][0]['dynamodb']['NewImage']["FirstName"]["S"]
+    attendeeId = event["Records"][0]['dynamodb']['Keys']["AttendeeID"]["N"]
 
     # The subject line for the email.
     subject = "Team" + team + " Game Day Info"
 
     # The email body for recipients with non-HTML email clients.
     body_text = ("Hello " + name + "! Thank you for attending todays Game Day! Below, I’ve shared the information for your team:"
-                 "Main Chime room"
+                 "Main Event room"
                  "Team EE Hash"
+                 "Your Attendee ID: " + attendeeId + "."
+                 "Please make sure to keep your attendee ID handy as it is unique to you!"
                 )
 
 
@@ -64,7 +65,19 @@ def sendEmailWithLink(event, teams):
         Main Event Room: <a href={eventRoom}>Event Room</a>
         <br>
         <br>
+        <br>
         Provided AWS Account: <a href={EEHash}>Team EE Hash</a>
+        <br>
+        <br>
+        <br>
+        Provided AWS Account: <a href={EEHash}>Team EE Hash</a>
+        <br>
+        <br>
+        <br>
+        Your Attendee ID: {attendeeId}
+        <br>
+        <br>
+        "Please make sure to keep your attendee ID handy as it is unique to you!"
       </p>
     </body>
     </html>
@@ -73,6 +86,7 @@ def sendEmailWithLink(event, teams):
 
 
 def sendEmailWithoutLink(event):
+    print(event)
     recipient = event["Records"][0]['dynamodb']['NewImage']["Email"]["S"]
     team = event["Records"][0]['dynamodb']['Keys']["Team"]["N"]
     name = event["Records"][0]['dynamodb']['NewImage']["FirstName"]["S"]
@@ -83,7 +97,8 @@ def sendEmailWithoutLink(event):
     # The email body for recipients with non-HTML email clients.
     body_text = ("Hello " + name + "! Thank you for attending todays Game Day! Below, I’ve shared the information for your team:"
                  "Main Chime room"
-
+                 "Your Attendee ID: " + attendeeId + "."
+                 "Please make sure to keep your attendee ID handy as it is unique to you!"
                 )
 
     # The HTML body of the email.
@@ -93,6 +108,19 @@ def sendEmailWithoutLink(event):
       <h1>Hello {name}! Thank you for attending todays Game Day! Below, I’ve shared the information for your team:</h1>
       <p>
         Main Event Room: <a href={eventRoom}>Event Room</a>
+        <br>
+        <br>
+        <br>
+        <br>
+        Provided AWS Account: <a href={EEHash}>Team EE Hash</a>
+        <br>
+        <br>
+        <br>
+        <br>
+        Your Attendee ID: {attendeeId}
+        <br>
+        <br>
+        "Please make sure to keep your attendee ID handy as it is unique to you!"
       </p>
     </body>
     </html>

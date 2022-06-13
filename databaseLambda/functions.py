@@ -15,6 +15,7 @@ TABLE_REGISTER = os.environ.get('REGISTRATION_TABLE')
 TABLE_TEAM = os.environ.get('TEAM_TABLE')
 EVENT_ROOM_BUCKET = os.environ.get('EVENT_ROOM_BUCKET')
 EVENT_ROOM_KEY = os.environ.get('EVENT_ROOM_KEY')
+MAX_TEAMS = int(os.environ.get('MAX_NUM_TEAMS'))
 
 # Create a new DynamoDB resource and specify a region.
 ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
@@ -31,34 +32,48 @@ def createTeam(team_num, attendee_exp):
     team_num:     [int] - team number
     attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
     """
-    print("Creating Team " + str(team_num))
 
-    key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
+    try:
+        if team_num > MAX_TEAMS:
+            raise Exception("team number is out of bounds")
 
-    if key_exists:
-        obj = s3_client.get_object(Bucket=EVENT_ROOM_BUCKET, Key=EVENT_ROOM_KEY)
-        teams = obj['Body'].read().decode('utf-8').splitlines()
-        if len(teams) > 0:
+        key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
 
-            #add new team to ddb
-            try:
-                response = ddb_client.put_item(
-                    TableName = TABLE_TEAM,
-                    Item={"Team":{"N":str(team_num)},
-                    "Members":{"N":"0"},
-                    "LowMembers":{"N":"0"},
-                    "MidMembers":{"N":"0"},
-                    "HighMembers":{"N":"0"},
-                    "EventRoom": {"S": f"{teams[team_num-1]}"}
-                    })
+        #Check for event room file in bucket
+        if key_exists:
+            obj = s3_client.get_object(Bucket=EVENT_ROOM_BUCKET, Key=EVENT_ROOM_KEY)
+            teams = obj['Body'].read().decode('utf-8').splitlines()
 
-            except ClientError as err:
-                logger.error(
-                    "Couldn't update table")
-                raise
+            #check that file has objects in it. WARNING! ASSUMES FORMAT IS CORRECT AND HAS ENOUGH LINKS!
+            if len(teams) > 0:
+                print("Creating Team " + str(team_num))
+
+                #add new team to ddb
+                try:
+                    response = ddb_client.put_item(
+                        TableName = TABLE_TEAM,
+                        Item={"Team":{"N":str(team_num)},
+                        "Members":{"N":"0"},
+                        "LowMembers":{"N":"0"},
+                        "MidMembers":{"N":"0"},
+                        "HighMembers":{"N":"0"},
+                        "EventRoom": {"S": f"{teams[team_num-1]}"}
+                        })
+
+                except ClientError as err:
+                    logger.error(
+                        "Couldn't update table")
+                    raise
+                else:
+                    time.sleep(1)
+                    return updateTeam(team_num, attendee_exp)
             else:
-                time.sleep(1)
-                return updateTeam(team_num, attendee_exp)
+                return createTeamNoRoom(team_num, attendee_exp)
+        else:
+            return createTeamNoRoom(team_num, attendee_exp)
+    except:
+        return False
+
 
 def createTeamNoRoom(team_num, attendee_exp):
     """
@@ -69,10 +84,11 @@ def createTeamNoRoom(team_num, attendee_exp):
     team_num:     [int] - team number
     attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
     """
-    print("Creating Team " + str(team_num) + " With no Event Room Link")
 
     #add new team to ddb
     try:
+        print("Creating Team " + str(team_num) + " With no Event Room Link")
+
         response = ddb_client.put_item(
             TableName = TABLE_TEAM,
             Item={"Team":{"N":str(team_num)},
@@ -162,7 +178,7 @@ def addTeamMember(attendee, team, customer, firstName, fullName, email, location
                 'AWSExperience': {"N": str(experience)},
                 'Virtual': {"BOOL": virtual},
                 'TimeStamp': {"S": timeStamp}
-                })
+                })['ResponseMetadata']
     except ClientError as err:
         logger = logging.getLogger()
         logger.error(
@@ -171,4 +187,4 @@ def addTeamMember(attendee, team, customer, firstName, fullName, email, location
             TABLE_REGISTER + " ")
         raise
     else:
-        return
+        return response

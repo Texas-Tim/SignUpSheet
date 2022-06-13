@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Meta tags required by Bootstrap -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>AWS Game Day</title>
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="js/updateParticipant.js"></script>
+
+  <style>
+
+      @font-face {
+          font-family: 'ITC Officina Sans Std Book';
+          font-style: normal;
+          font-weight: normal;
+          src: local('ITC Officina Sans Std Book'), url('fonts/itc-officina-sans-std-book-587036bacf4df.woff') format('woff');
+      }
+
+      .html {
+        height: 100%;
+        width: 100%;
+      }
+
+      .body {
+        height: 100%;
+        width: 100%;
+      }
+
+      .header {
+        padding: 5px;
+        text-align: center;
+        background-color: #232F3E;
+        color: #FF9900;
+        font-size: 30px;
+        font-family: 'ITC Officina Sans Std Book';
+        font-style: normal;
+        font-weight: normal;
+      }
+
+      .form-group1 {
+        display: flex;
+        width: 750px;
+        flex-grow: 1;
+        float: left;
+        clear: left;
+        height: 5px;
+        padding-left: 7%;
+        margin-right: 10px;
+      }
+
+      .form-group2 {
+        padding-top: 25px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+      }
+
+      .form-group3 {
+        padding-top: 25px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .link-box {
+        width: 340px;
+        height: 500px;
+        background-color: #f0f0f2;
+        border-radius: 10px;
+        float: right;
+        margin-right: 2%;
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: normal;
+      }
+
+      .link-text {
+        margin-left: 15px;
+        text-align: left;
+      }
+
+      @media all and (max-width: 1150px) {
+        .link-box { display: none; }
+      }
+
+      .form-group4 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .form-group5 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .form-group6 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .form-group7 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .form-group8 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .form-group9 {
+        padding-top: 30px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+      }
+
+      .button_objects {
+        padding-top: 40px;
+        padding-left: 7%;
+        display: flex;
+        float: left;
+        clear: left;
+        width: 750px;
+        margin-left: auto;
+        margin-bottom: 50px;
+      }
+
+      .footer {
+        padding: 7px;
+        background-color: #232F3E;
+        font-size: 3x;
+        color: white;
+        font-family: 'ITC Officina Sans Std Book';
+        position: fixed;
+        margin-top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-style: normal;
+        font-weight: normal;
+      }
+
+  </style>
+</head>
+
+<body>
+
+
+  <form class="form-horizontal">
+
+
+  <!-- Experimenting with Heading stuff
+       2.62 w to h ratio for base logo
+       2.31 w to h ratio for parter logo -->
+
+  <div class="header">
+    <img src="images/amazon_logo.png" alt="base_logo"
+      style="width:157.2px;height:60px;float:left;margin-top:3px"
+      align="middle">
+    <strong style="font-size:40px;margin-left:-100px">AWS Game Day Sign Up</strong>
+    <p> </p>
+  </div>
+
+  <div style="padding-top:10px;padding-bottom:10px">
+    <p> </p>
+    <h2> </h2>
+  </div>
+
+  <div class="link-box">
+    <h3 style="text-align: center"> Helpful Links </h3>
+    <div class="link-text">
+      <br></br>
+      <p><a href="https://aws.amazon.com/gameday/"> What is AWS Game Day?</a></p>
+      <p><a href="https://aws.amazon.com/"> AWS.amazon.com </a></p>
+    </div>
+  </div>
+
+
+
+  <div class="container">
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-6">
+        <h1>Team Update Page</h1>
+        <p>Enter the existing participants email, current team and new team number </p>
+      </div>
+    </div>
+
+    <!-- partner name -->
+    <div class="form-group5">
+      <label for="attendeeid">Attendee ID</label>
+      <!-- p name -->
+      <div>
+        <input id="attendeeid" name="attendeeid" type="attendeeid" placeholder="Attendee Personal ID" class="form-control input-md" required=""
+        style="margin-left: 34px; padding-right: 20px">
+      </div>
+    </div>
+
+    <!-- partner name -->
+    <div class="form-group6">
+      <label for="currentteamid">Current Team Number</label>
+      <!-- p name -->
+      <div>
+        <input id="currentteamid" name="currentteamid" type="current team number" placeholder="Current Team Number" class="form-control input-md" required=""
+        style="margin-left: 34px; padding-right: 20px">
+      </div>
+    </div>
+
+    <!-- partner name -->
+    <div class="form-group6">
+      <label for="newteamid">New Team Number</label>
+      <!-- p name -->
+      <div>
+        <input id="newteamid" name="newteamid" type="new team number" placeholder="New Team Number" class="form-control input-md" required=""
+        style="margin-left: 34px; padding-right: 20px">
+      </div>
+    </div>
+
+    <!--Submit Button -->
+    <div>
+      <label for="yobutton"></label>
+      <div class="button_objects">
+        <div id="form-response"></div>
+        <button id="yobutton" type="yobutton" class="btn btn-primary" style="margin-right: 15px;">Submit</button>
+        <!-- <a href="#" class="btn btn-primary " role="button" id="yobutton"
+         style="margin-right: 15px;">Submit
+        </a> -->
+      </div>
+    </div>
+
+    <div class="footer">
+      <footer>
+        <a href="https://aws.amazon.com/privacy/?nc1=f_pr" style="color:white"> Privacy </a>
+        |
+        <a href="https://aws.amazon.com/terms/?nc1=f_pr"  style="color:white"> Site Terms </a>
+          © 2022 Amazon Web Services, Inc. or its affiliates. All rights reserved.
+      </footer>
+    </div>
+  </div>
+</form>
+</body>
+
+</html>

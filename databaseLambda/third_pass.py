@@ -18,7 +18,8 @@ TABLE_TEAM = os.environ.get('TEAM_TABLE')
 ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
 
 
-def thirdPass(max_team_size, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
+
+def thirdPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
     print("Performing the third pass")
     #Scan each team
     notComplete = True
@@ -41,15 +42,29 @@ def thirdPass(max_team_size, teams, attendee, customer, firstName, fullName, rec
                 return True
 
     if notComplete:
-        team_count = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
-        team_num = team_count+1
-        if team_num > max_teams:
+
+        #number of teams in the database
+        size = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
+        team_num = 1
+
+        if size == max_teams:
             print("no available teams! All teams are full!")
             return False
         else:
             print("no available teams! Creating new team")
-            print("New team attributes: ", createTeam(team_num, awsExperience))
-            addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
-            return True
+            while team_num <= size+1:
+                # check if team exists, if yes, increment team number (must be done this way in the case that event moderator created teams using the move participant team API)
+                try:
+                    check = ddb_client.get_item(TableName=TABLE_TEAM, Key={'Team': {'N': str(team_num)}})['Item']
+                    team_num += 1
+
+                # If team doesn't exist, continue as normal
+                except KeyError:
+                    print("New team attributes: ", createTeam(team_num, awsExperience))
+                    addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+                    return True
+
     else:
         return True
+
+  

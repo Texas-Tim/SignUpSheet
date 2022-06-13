@@ -72,17 +72,31 @@ def firstPass(max_teams, teams, attendee, customer, firstName, fullName, recipie
                         return True
 
     if notComplete:
-        team_count = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
-        team_num = team_count+1
-        # print("Team: ", team_num)
-        if team_num > max_teams:
+
+        #number of teams in the database
+        size = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
+        team_num = 1
+
+        print("Max Teams: ", max_teams)
+        print("Size: ", size)
+        if size >= max_teams:
             print("no available teams! All teams are full!")
             return False
         else:
             print("no available teams! Creating new team")
-            print("New team attributes: ", createTeam(team_num, awsExperience))
-            addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+            while team_num <= size+1 or size == 0:
+                # check if team exists, if yes, increment team number (must be done this way in the case that event moderator created teams using the move participant team API)
+                # print("Size: ", size)
+                try:
+                    check = ddb_client.get_item(TableName=TABLE_TEAM, Key={'Team': {'N': str(team_num)}})['Item']
+                    # print("Check: ", check)
+                    team_num += 1
 
-            return True
+                # If team doesn't exist, continue as normal
+                except KeyError:
+                    print("New team attributes: ", createTeam(team_num, awsExperience))
+                    addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+                    return True
+
     else:
         return True

@@ -30,6 +30,11 @@
             "Type": "String",
             "Default": "Lambdas/S3CopyLambda.zip"
         },
+        "LambdaZipNameTeamChange": {
+            "Description": "Zip file for Team Change Lambda code",
+            "Type": "String",
+            "Default": "Lambdas/updateLambda.zip"
+        },
         "SourceBucket": {
             "Description": "Source of Website Files to copy over",
             "Type": "String",
@@ -72,8 +77,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 630,
-                    "y": 180
+                    "x": 720,
+                    "y": 30
                 },
                 "z": 1,
                 "embeds": []
@@ -84,8 +89,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 630,
-                    "y": 90
+                    "x": 820,
+                    "y": 30
                 },
                 "z": 1,
                 "embeds": []
@@ -96,8 +101,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 750,
-                    "y": 180
+                    "x": 720,
+                    "y": -110
                 },
                 "z": 1,
                 "embeds": []
@@ -108,8 +113,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 750,
-                    "y": 90
+                    "x": 820,
+                    "y": -110
                 },
                 "z": 1,
                 "embeds": [],
@@ -124,8 +129,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 900,
-                    "y": 180
+                    "x": 930,
+                    "y": -130
                 },
                 "z": 1,
                 "embeds": []
@@ -136,8 +141,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 900,
-                    "y": 90
+                    "x": 930,
+                    "y": -220
                 },
                 "z": 1,
                 "embeds": []
@@ -148,8 +153,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 510,
-                    "y": 90
+                    "x": 820,
+                    "y": 150
                 },
                 "z": 1,
                 "embeds": []
@@ -160,8 +165,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 210,
-                    "y": 240
+                    "x": 20,
+                    "y": 330
                 },
                 "z": 1,
                 "embeds": []
@@ -172,8 +177,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 360,
-                    "y": 60
+                    "x": 160,
+                    "y": 210
                 },
                 "z": 1,
                 "embeds": []
@@ -184,7 +189,7 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 60,
+                    "x": 160,
                     "y": 90
                 },
                 "z": 1,
@@ -196,8 +201,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 990,
-                    "y": 90
+                    "x": 500,
+                    "y": 30
                 },
                 "z": 1,
                 "embeds": [],
@@ -211,8 +216,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 1110,
-                    "y": 90
+                    "x": 500,
+                    "y": -100
                 },
                 "z": 1,
                 "embeds": []
@@ -223,8 +228,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 210,
-                    "y": 60
+                    "x": 20,
+                    "y": 210
                 },
                 "z": 1,
                 "embeds": [],
@@ -238,16 +243,16 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 360,
-                    "y": 240
+                    "x": 160,
+                    "y": 330
                 },
                 "z": 1,
                 "embeds": []
             },
             "9f034d1d-ba76-499b-aa32-7f868e083868": {
                 "size": {
-                    "width": 650,
-                    "height": 390
+                    "width": 750,
+                    "height": 260
                 },
                 "position": {
                     "x": 900,
@@ -255,6 +260,7 @@
                 },
                 "z": 1,
                 "embeds": [
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "5c004624-10ae-4847-ac83-97047940d4b1"
                 ]
             },
@@ -264,19 +270,19 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 1500,
-                    "y": 150
+                    "x": 1280,
+                    "y": 250
                 },
                 "z": 1,
                 "embeds": []
             },
             "5c004624-10ae-4847-ac83-97047940d4b1": {
                 "size": {
-                    "width": 470,
-                    "height": 210
+                    "width": 310,
+                    "height": 140
                 },
                 "position": {
-                    "x": 960,
+                    "x": 930,
                     "y": 420
                 },
                 "z": 2,
@@ -292,8 +298,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 1240,
-                    "y": 480
+                    "x": 1100,
+                    "y": 450
                 },
                 "z": 3,
                 "parent": "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -301,6 +307,29 @@
                 "iscontainedinside": [
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -329,8 +358,8 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 1120,
-                    "y": 480
+                    "x": 980,
+                    "y": 450
                 },
                 "z": 3,
                 "parent": "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -338,6 +367,29 @@
                 "iscontainedinside": [
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -366,14 +418,16 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 1500,
-                    "y": 300
+                    "x": 1440,
+                    "y": 260
                 },
                 "z": 1,
                 "embeds": [],
                 "dependson": [
                     "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab",
-                    "817c2e63-d6ed-4666-94f2-8ab39dc31ef8"
+                    "817c2e63-d6ed-4666-94f2-8ab39dc31ef8",
+                    "74feb7d3-4aa6-48a5-9e4e-4fe521943390",
+                    "5ebce1d0-82d3-4b1c-abf9-5f7ffbad7e85"
                 ]
             },
             "0d3cdf13-5818-4b29-953e-b07ea097c7ae": {
@@ -382,13 +436,126 @@
                     "height": 60
                 },
                 "position": {
-                    "x": 510,
-                    "y": 180
+                    "x": 720,
+                    "y": 150
                 },
-                "z": 0,
+                "z": 1,
                 "embeds": [],
                 "isassociatedwith": [
                     "b68004d7-7451-4406-abe9-04c09eefa08a"
+                ]
+            },
+            "7f23fc05-a34c-4dd5-a0c6-54287d4975ef": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 630,
+                    "y": 30
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "79a4db2a-698d-45a3-bfce-9c4618012ead": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 630,
+                    "y": -110
+                },
+                "z": 1,
+                "embeds": []
+            },
+            "5ebce1d0-82d3-4b1c-abf9-5f7ffbad7e85": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1440,
+                    "y": 460
+                },
+                "z": 3,
+                "parent": "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                "embeds": [],
+                "iscontainedinside": [
+                    "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b"
+                ]
+            },
+            "97a783a3-f08c-4a15-92bb-133f6b5aa17b": {
+                "size": {
+                    "width": 280,
+                    "height": 140
+                },
+                "position": {
+                    "x": 1300,
+                    "y": 420
+                },
+                "z": 2,
+                "parent": "9f034d1d-ba76-499b-aa32-7f868e083868",
+                "embeds": [
+                    "5ebce1d0-82d3-4b1c-abf9-5f7ffbad7e85",
+                    "74feb7d3-4aa6-48a5-9e4e-4fe521943390"
+                ]
+            },
+            "74feb7d3-4aa6-48a5-9e4e-4fe521943390": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 1350,
+                    "y": 460
+                },
+                "z": 3,
+                "parent": "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                "embeds": [],
+                "iscontainedinside": [
+                    "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b"
+                ]
+            },
+            "0df3d0db-d9b8-4be3-9b6f-a41f8a726b04": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 630,
+                    "y": 150
+                },
+                "z": 1,
+                "embeds": [],
+                "isassociatedwith": [
+                    "7f23fc05-a34c-4dd5-a0c6-54287d4975ef"
                 ]
             }
         }
@@ -529,6 +696,15 @@
                                             ]
                                         ]
                                     }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogGroup",
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": "arn:aws:logs:*:*:*"
                                 }
                             ]
                         }
@@ -897,7 +1073,7 @@
                         "SOURCE_BUCKET": {
                             "Ref": "SourceBucket"
                         },
-                        "API_GATEWAY": {
+                        "API_GATEWAY_FIRST": {
                             "Fn::Join": [
                                 "",
                                 [
@@ -910,6 +1086,22 @@
                                         "Ref": "DefaultRegion"
                                     },
                                     ".amazonaws.com/V1/register"
+                                ]
+                            ]
+                        },
+                        "API_GATEWAY_SECOND": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "https://",
+                                    {
+                                        "Ref": "GameDayAPIGateway"
+                                    },
+                                    ".execute-api.",
+                                    {
+                                        "Ref": "DefaultRegion"
+                                    },
+                                    ".amazonaws.com/V1/update"
                                 ]
                             ]
                         }
@@ -1155,7 +1347,7 @@
                 }
             }
         },
-        "apiGatewayResource": {
+        "apiGatewayRegisterResource": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
                 "ParentId": {
@@ -1175,7 +1367,7 @@
                 }
             }
         },
-        "apiGatewayOptionsMethod": {
+        "apiGatewayRegisterOptionsMethod": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
                 "AuthorizationType": "NONE",
@@ -1212,7 +1404,7 @@
                     }
                 ],
                 "ResourceId": {
-                    "Ref": "apiGatewayResource"
+                    "Ref": "apiGatewayRegisterResource"
                 },
                 "RestApiId": {
                     "Ref": "GameDayAPIGateway"
@@ -1224,7 +1416,7 @@
                 }
             }
         },
-        "apiGatewayPostMethod": {
+        "apiGatewayRegisterPostMethod": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
                 "AuthorizationType": "NONE",
@@ -1275,7 +1467,7 @@
                     }
                 ],
                 "ResourceId": {
-                    "Ref": "apiGatewayResource"
+                    "Ref": "apiGatewayRegisterResource"
                 },
                 "RestApiId": {
                     "Ref": "GameDayAPIGateway"
@@ -1284,6 +1476,138 @@
             "Metadata": {
                 "AWS::CloudFormation::Designer": {
                     "id": "66bf42e3-b7e7-4b0b-88c3-a9b1515cfcab"
+                }
+            }
+        },
+        "apiGatewayUpdateResource": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+                "ParentId": {
+                    "Fn::GetAtt": [
+                        "GameDayAPIGateway",
+                        "RootResourceId"
+                    ]
+                },
+                "PathPart": "update",
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "97a783a3-f08c-4a15-92bb-133f6b5aa17b"
+                }
+            }
+        },
+        "apiGatewayUpdateOptionsMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "OPTIONS",
+                "Integration": {
+                    "RequestTemplates": {
+                        "application/json": "{'statusCode': 200}"
+                    },
+                    "IntegrationResponses": [
+                        {
+                            "ResponseParameters": {
+                                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                                "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            "StatusCode": "200"
+                        }
+                    ],
+                    "Type": "MOCK"
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": {
+                                "Ref": "apiGatewayModel"
+                            }
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Headers": false,
+                            "method.response.header.Access-Control-Allow-Methods": false,
+                            "method.response.header.Access-Control-Allow-Origin": false
+                        },
+                        "StatusCode": "200"
+                    }
+                ],
+                "ResourceId": {
+                    "Ref": "apiGatewayUpdateResource"
+                },
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "5ebce1d0-82d3-4b1c-abf9-5f7ffbad7e85"
+                }
+            }
+        },
+        "apiGatewayUpdatePostMethod": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+                "AuthorizationType": "NONE",
+                "HttpMethod": "POST",
+                "Integration": {
+                    "PassthroughBehavior": "WHEN_NO_TEMPLATES",
+                    "IntegrationHttpMethod": "POST",
+                    "IntegrationResponses": [
+                        {
+                            "ResponseParameters": {
+                                "method.response.header.Access-Control-Allow-Origin": "'*'"
+                            },
+                            "StatusCode": "200"
+                        }
+                    ],
+                    "Type": "AWS",
+                    "Uri": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "arn:aws:apigateway:",
+                                {
+                                    "Ref": "DefaultRegion"
+                                },
+                                ":lambda:path/2015-03-31/functions/",
+                                {
+                                    "Fn::GetAtt": [
+                                        "LambdaChangeTeam",
+                                        "Arn"
+                                    ]
+                                },
+                                "/invocations"
+                            ]
+                        ]
+                    }
+                },
+                "MethodResponses": [
+                    {
+                        "ResponseModels": {
+                            "application/json": {
+                                "Ref": "apiGatewayModel"
+                            }
+                        },
+                        "ResponseParameters": {
+                            "method.response.header.Access-Control-Allow-Origin": false
+                        },
+                        "StatusCode": "200"
+                    }
+                ],
+                "ResourceId": {
+                    "Ref": "apiGatewayUpdateResource"
+                },
+                "RestApiId": {
+                    "Ref": "GameDayAPIGateway"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "74feb7d3-4aa6-48a5-9e4e-4fe521943390"
                 }
             }
         },
@@ -1317,11 +1641,13 @@
                 }
             },
             "DependsOn": [
-                "apiGatewayPostMethod",
-                "apiGatewayOptionsMethod"
+                "apiGatewayRegisterPostMethod",
+                "apiGatewayRegisterOptionsMethod",
+                "apiGatewayUpdatePostMethod",
+                "apiGatewayUpdateOptionsMethod"
             ]
         },
-        "LambdaTriggerAPIGateway": {
+        "LambdaTriggerAPIGatewayRegister": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "Action": "lambda:InvokeFunction",
@@ -1358,6 +1684,199 @@
                     "id": "0d3cdf13-5818-4b29-953e-b07ea097c7ae"
                 }
             }
+        },
+        "LambdaTriggerAPIGatewayUpdate": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "LambdaChangeTeam",
+                        "Arn"
+                    ]
+                },
+                "SourceArn": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "arn:aws:execute-api:",
+                            {
+                                "Ref": "DefaultRegion"
+                            },
+                            ":",
+                            {
+                                "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                                "Ref": "GameDayAPIGateway"
+                            },
+                            "/*/POST/update"
+                        ]
+                    ]
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "0df3d0db-d9b8-4be3-9b6f-a41f8a726b04"
+                }
+            }
+        },
+        "LambdaChangeTeam": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Description": "Lambda Function to update participants in the DDB table",
+                "Runtime": "python3.9",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "TeamChangeRole",
+                        "Arn"
+                    ]
+                },
+                "Handler": "lambda_function.lambda_handler",
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "LambdaFilesBucket"
+                    },
+                    "S3Key": {
+                        "Ref": "LambdaZipNameTeamChange"
+                    }
+                },
+                "Timeout": 120,
+                "Environment": {
+                    "Variables": {
+                        "MAX_NUM_TEAMS": {
+                            "Ref": "MaxTeams"
+                        },
+                        "REGION": {
+                            "Ref": "DefaultRegion"
+                        },
+                        "REGISTRATION_TABLE": {
+                            "Ref": "GameDayParticipants"
+                        },
+                        "TEAM_TABLE": {
+                            "Ref": "GameDayTeams"
+                        },
+                        "EVENT_ROOM_BUCKET": {
+                            "Ref": "EventRoomFilesBucket"
+                        },
+                        "EVENT_ROOM_KEY": {
+                            "Ref": "EventRoomFileKey"
+                        }
+                    }
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7f23fc05-a34c-4dd5-a0c6-54287d4975ef"
+                }
+            }
+        },
+        "TeamChangeRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            },
+                            "Action": "sts:AssumeRole"
+                        }
+                    ]
+                },
+                "Path": "/service-role/",
+                "Policies": [
+                    {
+                        "PolicyName": "SendSESEmailandDDBInvoke",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:CreateLogGroup",
+                                        "logs:CreateLogStream",
+                                        "logs:PutLogEvents"
+                                    ],
+                                    "Resource": "arn:aws:logs:*:*:*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "dynamodb:BatchGetItem",
+                                        "dynamodb:BatchWriteItem",
+                                        "dynamodb:PutItem",
+                                        "dynamodb:DeleteItem",
+                                        "dynamodb:GetItem",
+                                        "dynamodb:Scan",
+                                        "dynamodb:Query",
+                                        "dynamodb:UpdateItem",
+                                        "dynamodb:UpdateTable"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::GetAtt": [
+                                                "GameDayParticipants",
+                                                "Arn"
+                                            ]
+                                        },
+                                        {
+                                            "Fn::GetAtt": [
+                                                "GameDayTeams",
+                                                "Arn"
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:GetObject"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                },
+                                                "/EventRooms/*"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                "arn:aws:s3:::",
+                                                {
+                                                    "Ref": "EventRoomFilesBucket"
+                                                }
+                                            ]
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "79a4db2a-698d-45a3-bfce-9c4618012ead"
+                }
+            }
         }
     },
     "Outputs": {
@@ -1389,18 +1908,36 @@
                 ]
             }
         },
-        "GameDayWebsiteCustomerPage": {
+        "GameDayWebsiteCustomerHomePage": {
             "Value": {
-                        "Fn::Join": [
-                            "",
-                            [
-                              "Game Day Sign-Up Sheet Website Customer Page: ",
-                            {
-                                "Fn::GetAtt": [
-                                  "CloudFrontDistribution",
-                                  "DomainName"
+                "Fn::Join": [
+                    "",
+                    [
+                        "Game Day Sign-Up Sheet Customer Facing Page: ",
+                        {
+                            "Fn::GetAtt": [
+                                "CloudFrontDistribution",
+                                "DomainName"
                             ]
-                        }
+                        },
+                        "/registrationForm.html"
+                    ]
+                ]
+            }
+        },
+        "GameDayWebsiteTeamUpdatePage": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "Game Day Sign-Up Sheet Team Update Internal Page: ",
+                        {
+                            "Fn::GetAtt": [
+                                "CloudFrontDistribution",
+                                "DomainName"
+                            ]
+                        },
+                        "/switchTeams.html"
                     ]
                 ]
             }
