@@ -7,6 +7,9 @@ AWS Game Day web application for use with customers the morning of the event as 
 
 1. Attempt to break things by changing common parameters such as team size, event rooms, etc...
 2. Reach out to specialist for AppSec guidance
+3. Check for code functionality with bulk subscribes
+4. Add functionality for CodeDeploy from Github
+5. Add functionality for updates to existing CloudFormation Template
 
 # TLDR
 

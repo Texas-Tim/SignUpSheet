@@ -35,7 +35,7 @@ $(document).ready(function() {
 
       $.ajax({
         type: 'POST',
-        url: 'https://vgzn6ipfl2.execute-api.us-east-1.amazonaws.com/V1/update',
+        url: 'Api_Gateway_Endpoint',
         dataType: "json",
         crossDomain: "true",
         contentType: "application/json; charset=utf-8",
