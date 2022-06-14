@@ -35,7 +35,7 @@ $(document).ready(function() {
 
       $.ajax({
         type: 'POST',
-        url: 'https://va4q3t7wo9.execute-api.us-east-1.amazonaws.com/V2/update',
+        url: 'https://vgzn6ipfl2.execute-api.us-east-1.amazonaws.com/V1/update',
         dataType: "json",
         crossDomain: "true",
         contentType: "application/json; charset=utf-8",
@@ -47,7 +47,9 @@ $(document).ready(function() {
           $('#yobutton').text('Submit next participant');
         },
         error: function(jqxhr, status, exception) {
-          console.log(res)
+          console.log(jqxhr)
+          console.log(status)
+          console.log(exception)
           $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
           $('#yobutton').prop('disabled', false);
         }

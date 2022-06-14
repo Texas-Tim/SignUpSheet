@@ -1,0 +1,23 @@
+databaseLambda:
+
+{
+  "firstName": "Tim",
+  "lastName": "Sitze",
+  "email": "sitzeti@amazon.com",
+  "customer": "AWS",
+  "location": "Virginia",
+  "jobFunction": "Solutions Architect",
+  "experience": "5",
+  "virtual": true,
+  "optTimestamp": "Wed May 25 2022 16:59:43 GMT-0400 (Eastern Daylight Time)"
+}
+
+
+updateLambda:
+
+{
+  "id": "1",
+  "currentTeam": "1",
+  "newTeam': "4",
+  "optTimestamp": "Mon Jun 13 2022 15:07:41 GMT-0400 (Eastern Daylight Time)""
+}
