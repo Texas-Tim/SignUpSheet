@@ -11,7 +11,7 @@
     "LambdaZipNameWebsite" : "Lambdas/S3CopyLambda.zip",
     "MainEventRoom" : "https://chime.aws/TexasTimChime",
     "MaxTeamSize" : "4",
-    "MaxTeams" : "25",
+    "MaxTeams" : "10",
     "SESVerifiedEmail" : "sitzeti@amazon.com",
     "SourceBucket" : "aws-game-day-sign-up"
   }
