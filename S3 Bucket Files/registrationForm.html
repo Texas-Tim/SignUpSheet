@@ -226,49 +226,36 @@
 
   <div class="container">
     <div class="row justify-content-center mt-3">
-      <div class="col-md-6">
+      <div id="openinginvite" class="col-md-6">
         <h1>Register for the AWS Event!</h1>
         <p>Enter the following information to automatically be placed on a team</p>
       </div>
     </div>
+
+    <div class="row justify-content-center mt-3">
+      <div hidden id="submittedtext" class="col-md-6">
+        <h1> Test Data </h1>
+      </div>
+    </div>
+
     <!-- form entry -->
     <div class="form-group4">
-      <label for="firstnameid">Full Name</label>
+      <label id="namelabel" for="firstnameid">Full Name</label>
 
-      <!-- reviewers name -->
+      <!-- participants name -->
       <div>
         <input id="firstnameid" name="firstnameid" type="name" placeholder="first name" class="form-control input-md" required=""
          style="margin-left: 40px;">
       </div>
 
-      <!--reviewers email -->
       <div>
         <input id="lastnameid" name="lastnameid" type="name" placeholder="last name" class="form-control input-md" required=""
         style="margin-left: 60px;">
       </div>
     </div>
-    <!-- partner name -->
-    <div class="form-group5">
-      <label for="emailid">Email</label>
-      <!-- p name -->
-      <div>
-        <input id="emailid" name="emailid" type="email" placeholder="email" class="form-control input-md" required=""
-        style="margin-left: 34px; padding-right: 20px">
-      </div>
-    </div>
-
 
     <div class="form-group5">
-      <label for="emailid">Confirm Email</label>
-      <!-- p name -->
-      <div>
-        <input id="emailidconfirm" name="emailconfirmid" type="email" placeholder="email" class="form-control input-md" required=""
-        style="margin-left: 34px; padding-right: 20px">
-      </div>
-    </div>
-
-    <div class="form-group5">
-      <label for="emailid">Company</label>
+      <label id="companylabel" for="companyid">Company</label>
       <!-- p name -->
       <div>
         <input id="companyid" name="companyid" type="company" placeholder="company" class="form-control input-md" required=""
@@ -276,19 +263,10 @@
       </div>
     </div>
 
-    <!-- customer name -->
-    <div class="form-group6">
-      <label for="locationid">Location</label>
-      <!-- p name -->
-      <div>
-        <input id="locationid" name="locationid" type="location" placeholder="location" class="form-control input-md" required=""
-         style="margin-left: 18px; padding-right: 35px">
-      </div>
-    </div>
 
     <!-- document version -->
     <div class="form-group7">
-      <label for="jobid">Job Title</label>
+      <label id="joblabel" for="jobid">Job Title</label>
       <!-- p name -->
       <div>
         <input id="jobid" name="jobid" type="jobtitle" placeholder="title" class="form-control input-md"
@@ -298,7 +276,7 @@
 
     <!-- form entry -->
     <div class="form-group8">
-      <label for="experienceid">AWS Experience Level</label>
+      <label id="experiencelabel" for="experienceid">AWS Experience Level</label>
 
       <!-- experience entry -->
       <div>
@@ -315,8 +293,25 @@
       </div>
     </div>
 
+    <div class="form-group8">
+      <label id="languagelabel" for="languageid">Preferred Language</label>
+
+      <!-- language entry -->
+      <div>
+        <select id="languageid" name="languageid" type="language" class="form-control input-md"
+         style="margin-left: 35px; padding-right: 17px;">
+          <option value=0 selected="selected">English</option>
+          <option value=1>Spanish</option>
+          <option value=2>French</option>
+          <option value=3>Italian</option>
+          <option value=4>German</option>
+          <option value=5>Korean</option>
+        </select>
+      </div>
+    </div>
+
     <div class="form-group9">
-      <label for="experienceid">Virtual Attendance</label>
+      <label id="virtuallabel" for="virtualid">Virtual Attendance</label>
 
       <div>
         <select id="virtualid" name="virtualid" type="virtual" class="form-control input-md"
@@ -334,9 +329,8 @@
       <div class="button_objects">
         <div id="form-response"></div>
         <button id="yobutton" type="yobutton" class="btn btn-primary" style="margin-right: 15px;">Submit</button>
-        <!-- <a href="#" class="btn btn-primary " role="button" id="yobutton"
-         style="margin-right: 15px;">Submit
-        </a> -->
+
+        </script>
       </div>
     </div>
 

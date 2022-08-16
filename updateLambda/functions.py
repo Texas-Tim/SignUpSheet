@@ -97,7 +97,7 @@ def decrementTeam(team_num, attendee_exp):
         return response['Attributes']
 
 
-def createParticipant(attendee, team, customer, firstName, fullName, email, location, role, experience, virtual, timeStamp):
+def createParticipant(attendeeId, newTeamId, customer, firstName, fullName, role, attendee_exp, language, virtual, timeStamp):
     """
     Adds an attendee to the Game Day
     Variables
@@ -125,10 +125,9 @@ def createParticipant(attendee, team, customer, firstName, fullName, email, loca
                 'Company': {"S": customer},
                 'FirstName': {"S": firstName},
                 'FullName': {"S": fullName},
-                'Email': {"S": email},
-                'Location': {"S": location},
                 'Role': {"S": role},
                 'AWSExperience': {"N": str(experience)},
+                'Language': {"S": language},
                 'Virtual': {"BOOL": virtual},
                 'TimeStamp': {"S": timeStamp}
                 })
@@ -241,4 +240,4 @@ def createTeamNoRoom(team_num, attendee_exp):
         raise
     else:
         time.sleep(1)
-        return incrementTeam(team_num, attendee_exp)   
+        return incrementTeam(team_num, attendee_exp)

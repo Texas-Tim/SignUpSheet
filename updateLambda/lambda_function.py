@@ -11,7 +11,7 @@ from functions import deleteParticipant
 from functions import incrementTeam
 from functions import decrementTeam
 
-# If necessary, replace us-east-1 with the AWS Region you're using for Amazon SES.
+# If necessary, replace us-east-1 with the AWS Region you're using
 AWS_REGION = os.environ.get('REGION')
 # ensure these table names are set correctly as environment variables
 TABLE_REGISTER = os.environ.get('REGISTRATION_TABLE')
@@ -41,10 +41,9 @@ def lambda_handler(event, context):
         customer = participantData['Company']['S']
         firstName = participantData['FirstName']['S']
         fullName = participantData['FullName']['S']
-        email = participantData['Email']['S']
-        location = participantData['Location']['S']
         role = participantData['Role']['S']
         attendee_exp = participantData['AWSExperience']['N']
+        language = participantData['Language']['S']
         virtual = participantData['Virtual']['BOOL']
         timeStamp = event['optTimestamp']
 
@@ -60,7 +59,7 @@ def lambda_handler(event, context):
             decrementTeam(int(oldTeamId), int(attendee_exp))
 
             #  Create the participants information from the table
-            createParticipant(attendeeId, newTeamId, customer, firstName, fullName, email, location, role, attendee_exp, virtual, timeStamp)
+            createParticipant(attendeeId, newTeamId, customer, firstName, fullName, role, attendee_exp, language, virtual, timeStamp)
 
             #  Deprecate the number in the old teams stats
             incrementTeam(int(newTeamId), int(attendee_exp))
@@ -79,7 +78,7 @@ def lambda_handler(event, context):
                 decrementTeam(int(oldTeamId), int(attendee_exp))
 
                 #  Create the participants information from the table
-                createParticipant(attendeeId, newTeamId, customer, firstName, fullName, email, location, role, attendee_exp, virtual, timeStamp)
+                createParticipant(attendeeId, newTeamId, customer, firstName, fullName, role, attendee_exp, language, virtual, timeStamp)
 
                 #  Create the new team and update team info
                 createTeam(int(newTeamId), int(attendee_exp))
@@ -89,8 +88,8 @@ def lambda_handler(event, context):
         """
         return a success code
         """
-        print("Successfully updated new teams. Sending email to participant with new team information")
-        return "Successfully updated new teams. Sending email to participant with new team information"
+        print("Successfully updated new teams. Please inform participant of new team information")
+        return "Successfully updated new teams. Please inform participant of new team information"
 
 
     except KeyError:

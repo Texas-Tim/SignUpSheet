@@ -19,7 +19,7 @@ ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
 
 
 
-def secondPass(max_teams, teams, attendee, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp):
+def secondPass(max_teams, teams, attendeeId, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp):
     print("Performing the second pass")
     #Scan each team
     notComplete = True
@@ -42,33 +42,33 @@ def secondPass(max_teams, teams, attendee, customer, firstName, fullName, recipi
                     #Then check if team has 2 highly experienced players
                     if int(high_exp) < 2:
                         #if no, then add to team
-                        addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+                        addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
                         #update Game Day team table metadata
                         print("Updated team attributes ", updateTeam(team_num, awsExperience))
                         notComplete = False
-                        return True
+                        return [True, team_num]
 
                 #else if user has middle experience = 3
                 elif awsExperience == 3:
                     #Then check if team has 3 middle experienced players
                     if int(mid_exp) < 3:
                         #if no, then add to team
-                        addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+                        addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
                         #update Game Day team table metadata
                         print("Updated team attributes ", updateTeam(team_num, awsExperience))
                         notComplete = False
-                        return True
+                        return [True, team_num]
 
                 #else user has < 2 experience
                 else:
                     #check if team has 3 low experienced players
                     if int(low_exp) < 3:
                         #if no, then add to team
-                        addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
+                        addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
                         #update Game Day team table metadata
                         print("Updated team attributes ", updateTeam(team_num, awsExperience))
                         notComplete = False
-                        return True
+                        return [True, team_num]
 
     if notComplete:
 
@@ -78,7 +78,7 @@ def secondPass(max_teams, teams, attendee, customer, firstName, fullName, recipi
 
         if size >= max_teams:
             print("no available teams! All teams are full!")
-            return False
+            return [False, team_num]
         else:
             print("no available teams! Creating new team")
             while team_num <= size+1:
@@ -90,8 +90,8 @@ def secondPass(max_teams, teams, attendee, customer, firstName, fullName, recipi
                 # If team doesn't exist, continue as normal
                 except KeyError:
                     print("New team attributes: ", createTeam(team_num, awsExperience))
-                    addTeamMember(attendee, team_num, customer, firstName, fullName, recipient, location, role, awsExperience, virtual, timeStamp)
-                    return True
+                    addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
+                    return [True, team_num]
 
     else:
-        return True
+        return [True, team_num]

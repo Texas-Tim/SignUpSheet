@@ -2,13 +2,9 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
         "DefaultRegion": {
-            "Description": "Region that your verified SES Email is in",
+            "Description": "Default Region to run your event in",
             "Type": "String",
             "Default": "us-east-1"
-        },
-        "SESVerifiedEmail": {
-            "Description": "SES Verified Email with which to send updates to attendees",
-            "Type": "String"
         },
         "LambdaFilesBucket": {
             "Description": "S3 Bucket that stores the Lambda Function source code",
@@ -19,11 +15,6 @@
             "Description": "Zip file for Database Lambda code",
             "Type": "String",
             "Default": "Lambdas/databaseLambda.zip"
-        },
-        "LambdaZipNameEmail": {
-            "Description": "Zip file for Email Lambda code",
-            "Type": "String",
-            "Default": "Lambdas/emailLambda.zip"
         },
         "LambdaZipNameWebsite": {
             "Description": "Zip file for Website Lambda code",
@@ -49,6 +40,16 @@
             "Description": "CSV File with existing Breakout Rooms",
             "Type": "String",
             "Default": "EventRooms/EventRoomLinks.csv"
+        },
+        "HashListFilesBucket": {
+            "Description": "Source of EE Hash List Files to copy over",
+            "Type": "String",
+            "Default": "aws-game-day-sign-up"
+        },
+        "HashListFileKey": {
+            "Description": "CSV File with existing EE Account Hashes",
+            "Type": "String",
+            "Default": "Dashboard/GameDay-teams.csv"
         },
         "MaxTeams": {
             "Description": "Maximum number of teams spun up in Event Engine",
@@ -83,18 +84,6 @@
                 "z": 1,
                 "embeds": []
             },
-            "db3cdf5a-059a-4c98-bb5c-969c9ff67ada": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 820,
-                    "y": 30
-                },
-                "z": 1,
-                "embeds": []
-            },
             "5245b774-6fbf-49bb-a7a7-56029743f998": {
                 "size": {
                     "width": 60,
@@ -106,22 +95,6 @@
                 },
                 "z": 1,
                 "embeds": []
-            },
-            "87e562dc-c1fb-41d3-9b3a-7a17e2eaecf1": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 820,
-                    "y": -110
-                },
-                "z": 1,
-                "embeds": [],
-                "dependson": [
-                    "7416dd83-0ac8-459a-9c02-5ce036ad451f",
-                    "f47ca9e2-29d6-4f60-bc8a-26f331ac0b24"
-                ]
             },
             "f47ca9e2-29d6-4f60-bc8a-26f331ac0b24": {
                 "size": {
@@ -143,18 +116,6 @@
                 "position": {
                     "x": 930,
                     "y": -220
-                },
-                "z": 1,
-                "embeds": []
-            },
-            "3ade7719-8008-4ec6-8075-f57130a82b6f": {
-                "size": {
-                    "width": 60,
-                    "height": 60
-                },
-                "position": {
-                    "x": 820,
-                    "y": 150
                 },
                 "z": 1,
                 "embeds": []
@@ -349,6 +310,11 @@
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1"
                 ]
             },
@@ -367,6 +333,11 @@
                 "iscontainedinside": [
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "9f034d1d-ba76-499b-aa32-7f868e083868",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
+                    "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
                     "5c004624-10ae-4847-ac83-97047940d4b1",
@@ -495,6 +466,11 @@
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b"
                 ]
             },
@@ -540,6 +516,11 @@
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
+                    "97a783a3-f08c-4a15-92bb-133f6b5aa17b",
                     "97a783a3-f08c-4a15-92bb-133f6b5aa17b"
                 ]
             },
@@ -561,56 +542,6 @@
         }
     },
     "Resources": {
-        "LambdaSendEmail": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-                "Description": "Lambda Function to update Team Metadata in the DDB table",
-                "Runtime": "python3.9",
-                "Role": {
-                    "Fn::GetAtt": [
-                        "SendEmailRole",
-                        "Arn"
-                    ]
-                },
-                "Handler": "lambda_function.lambda_handler",
-                "Code": {
-                    "S3Bucket": {
-                        "Ref": "LambdaFilesBucket"
-                    },
-                    "S3Key": {
-                        "Ref": "LambdaZipNameEmail"
-                    }
-                },
-                "Timeout": 120,
-                "Environment": {
-                    "Variables": {
-                        "MAIN_CONFERENCE_ROOM": {
-                            "Ref": "MainEventRoom"
-                        },
-                        "REGION": {
-                            "Ref": "DefaultRegion"
-                        },
-                        "SENDER": {
-                            "Ref": "SESVerifiedEmail"
-                        },
-                        "EVENT_ROOM_BUCKET": {
-                            "Ref": "EventRoomFilesBucket"
-                        },
-                        "EVENT_ROOM_KEY": {
-                            "Ref": "EventRoomFileKey"
-                        }
-                    }
-                }
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "db3cdf5a-059a-4c98-bb5c-969c9ff67ada"
-                }
-            },
-            "DependsOn": [
-                "SendEmailRole"
-            ]
-        },
         "UpdateParticipantRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -667,18 +598,32 @@
                                     "Action": [
                                         "s3:GetObject"
                                     ],
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                "arn:aws:s3:::",
-                                                {
-                                                    "Ref": "EventRoomFilesBucket"
-                                                },
-                                                "/EventRooms/*"
+                                    "Resource": [
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "arn:aws:s3:::",
+                                                    {
+                                                        "Ref": "EventRoomFilesBucket"
+                                                    },
+                                                    "/EventRooms/*"
+                                                ]
                                             ]
-                                        ]
-                                    }
+                                        },
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "arn:aws:s3:::",
+                                                    {
+                                                        "Ref": "EventRoomFilesBucket"
+                                                    },
+                                                    "/Dashboard/*"
+                                                ]
+                                            ]
+                                        }
+                                    ]
                                 },
                                 {
                                     "Effect": "Allow",
@@ -719,113 +664,6 @@
             "DependsOn": [
                 "GameDayTeams",
                 "GameDayParticipants"
-            ]
-        },
-        "SendEmailRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Service": "lambda.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRole"
-                        }
-                    ]
-                },
-                "Path": "/service-role/",
-                "Policies": [
-                    {
-                        "PolicyName": "SendSESEmailandDDBInvoke",
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "ses:SendEmail",
-                                        "ses:SendTemplatedEmail",
-                                        "ses:SendRawEmail"
-                                    ],
-                                    "Resource": "*"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "logs:CreateLogGroup",
-                                        "logs:CreateLogStream",
-                                        "logs:PutLogEvents"
-                                    ],
-                                    "Resource": "arn:aws:logs:*:*:*"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "lambda:InvokeFunction"
-                                    ],
-                                    "Resource": "*"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "dynamodb:DescribeStream",
-                                        "dynamodb:GetRecords",
-                                        "dynamodb:GetShardIterator",
-                                        "dynamodb:ListStreams"
-                                    ],
-                                    "Resource": "*"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "s3:GetObject"
-                                    ],
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                "arn:aws:s3:::",
-                                                {
-                                                    "Ref": "EventRoomFilesBucket"
-                                                },
-                                                "/EventRooms/*"
-                                            ]
-                                        ]
-                                    }
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "s3:ListBucket"
-                                    ],
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                "arn:aws:s3:::",
-                                                {
-                                                    "Ref": "EventRoomFilesBucket"
-                                                }
-                                            ]
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ]
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "87e562dc-c1fb-41d3-9b3a-7a17e2eaecf1"
-                }
-            },
-            "DependsOn": [
-                "GameDayParticipants",
-                "GameDayTeams"
             ]
         },
         "GameDayParticipants": {
@@ -934,40 +772,26 @@
                         "TEAM_TABLE": {
                             "Ref": "GameDayTeams"
                         },
+                        "MAIN_CONFERENCE_ROOM": {
+                            "Ref": "MainEventRoom"
+                        },
                         "EVENT_ROOM_BUCKET": {
                             "Ref": "EventRoomFilesBucket"
                         },
                         "EVENT_ROOM_KEY": {
                             "Ref": "EventRoomFileKey"
+                        },
+                        "HASH_LIST_BUCKET": {
+                            "Ref": "HashListFilesBucket"
+                        },
+                        "HASH_LIST_KEY": {
+                            "Ref": "HashListFileKey"
                         }
                     }
                 }
             },
             "DependsOn": [
                 "UpdateParticipantRole"
-            ]
-        },
-        "LambdaTrigger": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "EventSourceArn": {
-                    "Fn::GetAtt": [
-                        "GameDayParticipants",
-                        "StreamArn"
-                    ]
-                },
-                "FunctionName": {
-                    "Ref": "LambdaSendEmail"
-                },
-                "StartingPosition": "LATEST"
-            },
-            "Metadata": {
-                "AWS::CloudFormation::Designer": {
-                    "id": "3ade7719-8008-4ec6-8075-f57130a82b6f"
-                }
-            },
-            "DependsOn": [
-                "LambdaSendEmail"
             ]
         },
         "GameDayWebsiteBucket": {
@@ -1047,7 +871,17 @@
             "Type": "AWS::Lambda::Function",
             "Properties": {
                 "Description": "Copy website files to custom S3 Bucket",
-                "FunctionName": "LambdaS3Website",
+                "FunctionName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "LambdaS3Website-",
+                            {
+                                "Ref": "AWS::StackName"
+                            }
+                        ]
+                    ]
+                },
                 "Handler": "lambda_function.lambda_handler",
                 "Role": {
                     "Fn::GetAtt": [

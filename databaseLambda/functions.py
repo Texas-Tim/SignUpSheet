@@ -144,7 +144,7 @@ def updateTeam(team_num, attendee_exp):
     else:
         return response['Attributes']
 
-def addTeamMember(attendee, team, customer, firstName, fullName, email, location, role, experience, virtual, timeStamp):
+def addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp):
     """
     Adds an attendee to the Game Day
     Variables
@@ -167,15 +167,14 @@ def addTeamMember(attendee, team, customer, firstName, fullName, email, location
         response = ddb_client.put_item(
             TableName = TABLE_REGISTER,
             Item={
-                'AttendeeID': {"N": str(attendee)},
-                'Team': {"N": str(team)},
+                'AttendeeID': {"N": str(attendeeId)},
+                'Team': {"N": str(team_num)},
                 'Company': {"S": customer},
                 'FirstName': {"S": firstName},
                 'FullName': {"S": fullName},
-                'Email': {"S": email},
-                'Location': {"S": location},
+                'Language': {"S": language},
                 'Role': {"S": role},
-                'AWSExperience': {"N": str(experience)},
+                'AWSExperience': {"N": str(awsExperience)},
                 'Virtual': {"BOOL": virtual},
                 'TimeStamp': {"S": timeStamp}
                 })['ResponseMetadata']

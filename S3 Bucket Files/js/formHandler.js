@@ -7,11 +7,9 @@ $(document).ready(function() {
     //User inputted variables
     var firstName = $("#firstnameid").val(),
         lastName = $("#lastnameid").val(),
-        email = $("#emailid").val(),
-        emailConfirm = $("#emailidconfirm").val(),
         customer = $("#companyid").val(),
-        location = $("#locationid").val(),
         job_function = $("#jobid").val(),
+        language = $("#languageid").val(),
         experience = $('#experienceid').val(),
         virtual = $('#virtualid').val(),
         optTimestamp = undefined,
@@ -25,16 +23,8 @@ $(document).ready(function() {
       $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter your first name.</div>');
     } else if (lastName == "") {
       $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter your last name.</div>');
-    } else if (email == "") {
-      $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter a valid email.</div>');
-    } else if (emailConfirm == "") {
-      $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter a valid email.</div>');
-    } else if (emailConfirm != email) {
-      $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please check that your email entries are the same!</div>');
     } else if (customer == "") {
       $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter your company name.</div>');
-    } else if (location == "") {
-      $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter your location.</div>');
     } else if (job_function == "") {
       $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">Please enter your job function.</div>');
     } else if (experience == "empty") {
@@ -50,34 +40,138 @@ $(document).ready(function() {
       var data = JSON.stringify({
         'firstName': firstName,
         'lastName': lastName,
-        'email': email,
         'customer': customer,
-        'location': location,
         'jobFunction': job_function,
         'experience': experience,
+        'language': language,
         'virtual': virtual,
         'optTimestamp': timestamp.toString()
       });
 
       $.ajax({
         type: 'POST',
-        url: 'Api_Gateway_Endpoint',
+        url: 'https://0wtlzeni80.execute-api.us-east-1.amazonaws.com/V1/register',
         dataType: "json",
         crossDomain: "true",
         contentType: "application/json; charset=utf-8",
         data: data,
         success: function(res) {
           console.log(res)
-          $('#form-response').html('<div class="mt-3 alert alert-success" role="alert"><p>'+res+'</p></div>');
+
+          $("#firstnameid").prop('hidden', true);
+          $("#namelabel").prop('hidden', true);
+          $("#lastnameid").prop('hidden', true);
+          $("#companyid").prop('hidden', true);
+          $("#companylabel").prop('hidden', true);
+          $("#jobid").prop('hidden', true);
+          $("#joblabel").prop('hidden', true);
+          $('#experienceid').prop('hidden', true);
+          $('#experiencelabel').prop('hidden', true);
+          $('#languageid').prop('hidden', true);
+          $('#languagelabel').prop('hidden', true);
+          $('#virtualid').prop('hidden', true);
+          $('#virtuallabel').prop('hidden', true);
+
+
+
+          var result = res.result
+          var team_num = res.team
+          var team_hash = res.hash
+          var team_room = res.team_room
+          var conference_room = res.main_room
+          var attendeeId = res.attendee
+
+          const inv = document.getElementById('openinginvite')
+          const end = document.getElementById('submittedtext')
+
+
+          if(team_room == 'undefined'){
+
+            inv.innerHTML=`<h1>Hello ${firstName}! Thank you for attending todays Game Day! Below, I’ve shared the information for your team:</h1>
+            <p style="font-size:15px;">
+              <br>
+              <br>
+              <br>
+              Main Event Room: <a href=${conference_room}>Event Room</a>
+              <br>
+              <br>
+              Provided AWS Account: <a href=${team_hash}>Team EE Hash</a>
+              <br>
+              <br>
+              Your Team Number: <strong>${team_num}</strong>
+              <br>
+              Your Attendee ID: <strong>${attendeeId}</strong>
+              <br>
+              <br>
+              "Please make sure to keep your attendee ID handy as it is unique to you!"
+              <br>
+              <strong>"WARNING!</strong> Please save this page for your records as all information will be gone once you move away"
+            </p>`;
+
+          } else {
+
+            inv.innerHTML=`<h1>Hello ${firstName}! Thank you for attending todays Game Day! Below, I’ve shared the information for your team:</h1>
+            <p style="font-size:15px;">
+              <br>
+              <br>
+              <br>
+              Main Event Room: <a href=${conference_room}>Event Room</a>
+              <br>
+              <br>
+              Provided AWS Account: <a href=${team_hash}>Team EE Hash</a>
+              <br>
+              <br>
+              Your Team Event Room: <a href=${team_room}>Team Event Room</a>
+              <br>
+              <br>
+              Your Team Number: <strong>${team_num}</strong>
+              <br>
+              Your Attendee ID: <strong>${attendeeId}</strong>
+              <br>
+              <br>
+              Please make sure to keep your attendee ID handy as it is unique to you!
+              <br>
+              <br>
+              <strong>WARNING!</strong> Please save this page for your records as all information will be gone once you move away
+            </p>`;
+          }
+
+
+
+          end.innerHTML=`<h2>${result}</h2>`
+          $('#submittedtext').prop('hidden', false);
           $('#yobutton').prop('hidden', true);
-          $('#yobutton').text('Thanks for submitting!');
+
         },
         error: function(jqxhr, status, exception) {
+
+          const div = document.getElementById('submittedtext')
+          div.innerHTML=`<div class="alert">
+          <h2> An error occurred. Refresh the page to try again.</h2>
+          </div>`;
+
+          $("#firstnameid").prop('hidden', true);
+          $("#namelabel").prop('hidden', true);
+          $("#lastnameid").prop('hidden', true);
+          $("#companyid").prop('hidden', true);
+          $("#companylabel").prop('hidden', true);
+          $("#jobid").prop('hidden', true);
+          $("#joblabel").prop('hidden', true);
+          $('#experienceid').prop('hidden', true);
+          $('#experiencelabel').prop('hidden', true);
+          $('#languageid').prop('hidden', true);
+          $('#languagelabel').prop('hidden', true);
+          $('#virtualid').prop('hidden', true);
+          $('#virtuallabel').prop('hidden', true);
+
+          $('#submittedtext').prop('hidden', false);
+          $("#openinginvite").prop('hidden', true);
+
           console.log(jqxhr)
           console.log(status)
           console.log(exception)
-          $('#form-response').html('<div class="mt-3 alert alert-danger" role="alert">An error occurred. Please try again later.</div>');
-          $('#yobutton').prop('disabled', false);
+          $('#yobutton').prop('disabled', true);
+          $('#yobutton').prop('hidden', true);
         }
       });
     }

@@ -3,11 +3,10 @@ databaseLambda:
 {
   "firstName": "Tim",
   "lastName": "Sitze",
-  "email": "sitzeti@amazon.com",
   "customer": "AWS",
-  "location": "Virginia",
   "jobFunction": "Solutions Architect",
   "experience": "5",
+  "language": "English",
   "virtual": true,
   "optTimestamp": "Wed May 25 2022 16:59:43 GMT-0400 (Eastern Daylight Time)"
 }
