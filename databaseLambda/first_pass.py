@@ -20,7 +20,7 @@ ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
 
 
 def firstPass(max_teams, teams, attendeeId, customer, hash_l, room_list, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag):
-
+    #added a comment
     #Check for any flags
     if l_flag:
         return firstLanguagePass(max_teams, teams, attendeeId, customer, hash_l, room_list, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
