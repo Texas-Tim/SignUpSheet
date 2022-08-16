@@ -21,9 +21,9 @@ MAX_TEAMS = int(os.environ.get('MAX_NUM_TEAMS'))
 ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
 s3_client = boto3.client('s3', region_name=AWS_REGION)
 
+#Conference Room, Hash, list of x flags
 
-
-def createTeam(team_num, attendee_exp):
+def createNewTeam(team_num, attendee_exp, EEHash, room_list, language):
     """
     creates a new team with 0 members
 
@@ -32,81 +32,42 @@ def createTeam(team_num, attendee_exp):
     team_num:     [int] - team number
     attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
     """
+    ddb_dict = {
+        "Team":{"N":str(team_num)},
+        "Hash": {"S": EEHash}
+        "Members":{"N":"0"},
+        "LowMembers":{"N":"0"},
+        "MidMembers":{"N":"0"},
+        "HighMembers":{"N":"0"},
+        "Language": {"S": language}
+    }
+    #Grab the Event Room if applicable
+    if len(room_list) > 0:
+        ddb_dict["EventRoom"] = {"S": f"{room_list[team_num-1]}"}
 
     try:
         if team_num > MAX_TEAMS:
             raise Exception("team number is out of bounds")
 
-        key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
+        print("Creating Team " + str(team_num))
+        #add new team to ddb
+        try:
+            response = ddb_client.put_item(
+                TableName = TABLE_TEAM,
+                Item=ddb_dict)
 
-        #Check for event room file in bucket
-        if key_exists:
-            obj = s3_client.get_object(Bucket=EVENT_ROOM_BUCKET, Key=EVENT_ROOM_KEY)
-            teams = obj['Body'].read().decode('utf-8').splitlines()
-
-            #check that file has objects in it. WARNING! ASSUMES FORMAT IS CORRECT AND HAS ENOUGH LINKS!
-            if len(teams) > 0:
-                print("Creating Team " + str(team_num))
-
-                #add new team to ddb
-                try:
-                    response = ddb_client.put_item(
-                        TableName = TABLE_TEAM,
-                        Item={"Team":{"N":str(team_num)},
-                        "Members":{"N":"0"},
-                        "LowMembers":{"N":"0"},
-                        "MidMembers":{"N":"0"},
-                        "HighMembers":{"N":"0"},
-                        "EventRoom": {"S": f"{teams[team_num-1]}"}
-                        })
-
-                except ClientError as err:
-                    logger.error(
-                        "Couldn't update table")
-                    raise
-                else:
-                    time.sleep(1)
-                    return updateTeam(team_num, attendee_exp)
-            else:
-                return createTeamNoRoom(team_num, attendee_exp)
+        except ClientError as err:
+            logger.error(
+                "Couldn't update table")
+            raise
         else:
-            return createTeamNoRoom(team_num, attendee_exp)
+            time.sleep(1)
+            return updateTeam(team_num, attendee_exp)
+
     except:
         return False
 
-
-def createTeamNoRoom(team_num, attendee_exp):
-    """
-    creates a new team with 0 members
-
-    Variables:
-
-    team_num:     [int] - team number
-    attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
-    """
-
-    #add new team to ddb
-    try:
-        print("Creating Team " + str(team_num) + " With no Event Room Link")
-
-        response = ddb_client.put_item(
-            TableName = TABLE_TEAM,
-            Item={"Team":{"N":str(team_num)},
-            "Members":{"N":"0"},
-            "LowMembers":{"N":"0"},
-            "MidMembers":{"N":"0"},
-            "HighMembers":{"N":"0"}
-            })
-
-    except ClientError as err:
-        logger.error(
-            "Couldn't update table")
-        raise
-    else:
-        time.sleep(1)
-        return updateTeam(team_num, attendee_exp)
-
-def updateTeam(team_num, attendee_exp):
+def updateTeamTable(team_num, attendee_exp):
     """
     Updates the existing team member count
 
@@ -144,7 +105,7 @@ def updateTeam(team_num, attendee_exp):
     else:
         return response['Attributes']
 
-def addTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp):
+def registerTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp):
     """
     Adds an attendee to the Game Day
     Variables
@@ -154,8 +115,7 @@ def addTeamMember(attendeeId, team_num, customer, firstName, fullName, language,
     customer:    [string] - customer's company Name
     firstName:   [string] - registree's first name
     fullName:    [string] - registree's full name
-    email:       [string] - registree's email
-    location:    [string] - location of the registree
+    language:    [string] - registree's preferred language
     role:        [string] - job role of the registree
     experience:  [int] - experience level of the registree on a scale of 0-5 with 0 being none and 5 being expert
     virtual:     [bool]   - status of the registrees attendance in person or virtual (for hybrid events)

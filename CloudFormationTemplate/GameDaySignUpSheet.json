@@ -1,6 +1,20 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
+        "MaxTeams": {
+            "Description": "Maximum number of teams spun up in Event Engine",
+            "Type": "String"
+        },
+        "MainEventRoom": {
+            "Description": "URL to main event room",
+            "Type": "String"
+        },
+        "SortByLanguage":{
+            "Description": "Whether to sort teams by language before experience. Please input True or False",
+            "Type": "String",
+            "Default": "False",
+            "AllowedValues": ["True", "False"]
+        },
         "DefaultRegion": {
             "Description": "Default Region to run your event in",
             "Type": "String",
@@ -51,18 +65,10 @@
             "Type": "String",
             "Default": "Dashboard/GameDay-teams.csv"
         },
-        "MaxTeams": {
-            "Description": "Maximum number of teams spun up in Event Engine",
-            "Type": "String"
-        },
         "MaxTeamSize": {
             "Description": "Maximum size of each team per Event Engine",
             "Type": "String",
             "Default": "4"
-        },
-        "MainEventRoom": {
-            "Description": "URL to main event room",
-            "Type": "String"
         },
         "APIGatewayEndpointType": {
             "Description": "Valid Endpoint Types Include: EDGE, REGIONAL, PRIVATE",
@@ -786,6 +792,9 @@
                         },
                         "HASH_LIST_KEY": {
                             "Ref": "HashListFileKey"
+                        },
+                        "LANGUAGE_FLAG":{
+                            "Ref": "SortByLanguage"
                         }
                     }
                 }

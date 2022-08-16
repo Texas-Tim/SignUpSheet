@@ -27,6 +27,9 @@ HASH_LIST_KEY = os.environ.get('HASH_LIST_KEY')
 
 MAIN_CONFERENCE_ROOM = os.environ.get('MAIN_CONFERENCE_ROOM')
 
+#if l_flag is True, organize teams based on language first, then experience
+l_flag = os.environ.get('LANGUAGE_FLAG')
+
 
 # Create a new DynamoDB resource and specify a region.
 ddb_client = boto3.client('dynamodb', region_name=AWS_REGION)
@@ -37,11 +40,16 @@ print('Loading function')
 
 def lambda_handler(event, context):
 
+
     count = ddb_client.scan(TableName=TABLE_REGISTER, ConsistentRead=True)['Count'] #ConsistentRead ensures the latest table information
     attendeeId = count+1
     team_distribution_round = 1
     max_teams = math.ceil(MAX_TEAMS*0.5)
 
+    hash_l = hash_list()
+    if hash_l < 0:
+        return "ERROR! Please update S3 Bucket with CSV containing Team Hashes"
+    event_r = event_rooms()
 
     try:
         #Built in logic: fill up the first half of of teams first, then add 25% more teams, then open up all teams (might provide even more rounds in the future)
@@ -63,38 +71,13 @@ def lambda_handler(event, context):
         print(f"Team distribution round: {team_distribution_round}")
 
         #Run up to three passes over the databases
-        result, team_num = team_registration(event, attendeeId, max_teams)
+        result, team_num = team_registration(event, attendeeId, max_teams, hash_list)
 
-        #Start pulling hash data from s3 table
-        key_exists = s3_client.list_objects_v2(Bucket=HASH_LIST_BUCKET, Prefix=HASH_LIST_KEY)['KeyCount']
-        EEHash = None
-        if key_exists:
-            #normalize the table information and sort by table number
-            hash_index = 5
-            obj = s3_client.get_object(Bucket=HASH_LIST_BUCKET, Key=HASH_LIST_KEY)
-            hash_ = obj['Body'].read().decode('utf-8').splitlines()
-            for i, h in enumerate(hash_):
-                hash_[i] = h.split(",")
-            if hash_[0][0] == 'game-id':
-                hash_.pop(0)
-            if len(hash_) > 0:
-                hash_.sort(key=lambda hashes: int(hashes[3]))
-                #remove everything but the hash url
-                for i, h in enumerate(hash_):
-                    hash_[i] = h[hash_index]
-                #assign the event room hash
-                EEHash = hash_[int(team_num)-1]
-
-
-        #Start pulling room data from s3 table
-        key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
+        #Grab the EE Hash for the appropriate team and the event room if applicable
+        EEHash = hash_l[int(team_num)-1]
         room = None
-        if key_exists:
-            obj = s3_client.get_object(Bucket=EVENT_ROOM_BUCKET, Key=EVENT_ROOM_KEY)
-            event_rooms = obj['Body'].read().decode('utf-8').splitlines()
-
-            if len(event_rooms) > 0:
-                room = event_rooms[int(team_num)-1]
+        if len(event_r) > 0:
+            room = event_r[int(team_num)-1]
 
 
         json = {
@@ -107,10 +90,6 @@ def lambda_handler(event, context):
         }
         return json
 
-
-
-
-
     except ClientError as err:
         logger.error(
             f"Couldn't update table {TABLE_REGISTER}")
@@ -121,7 +100,7 @@ def lambda_handler(event, context):
         return 'Something wrong occurred in the code. All Teams are full or all passes failed'
 
 
-def team_registration(event, attendeeId, max_teams):
+def team_registration(event, hash_l, attendeeId, max_teams):
 
     #Grab the information from Sign up sheet
     firstName = event["firstName"]
@@ -138,24 +117,66 @@ def team_registration(event, attendeeId, max_teams):
     #initialize some useful variables
     fullName = firstName + " " + lastName
     teams = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Items']
-    response = firstPass(max_teams, teams, attendeeId, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
+    response = firstPass(max_teams, teams, attendeeId, customer, hash_l, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
 
     #firstPass, strict team requirements
     if response[0]:
         print("first Pass Success!")
         return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
 
-    response = secondPass(max_teams, teams, attendeeId, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
+    response = secondPass(max_teams, teams, attendeeId, customer, hash_l, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
     #secondPass, avoids all low experience teams
     if response[0]:
         print("second pass Success!")
         return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
 
-    response = thirdPass(max_teams, teams, attendeeId, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
+    response = thirdPass(max_teams, teams, attendeeId, customer, hash_l, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
     if response[0]:
     #finalPass, just fill the teams
         print("third pass Success!")
         return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
+
+    response = finalPass(max_teams, teams, attendeeId, customer, hash_l, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
+    if response[0]:
+    #finalPass, just fill the teams
+        print("final pass Success!")
+        return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
     else:
         print("Code not working, should not reach this text!")
         return "Failed"
+
+def event_rooms():
+
+    key_exists = s3_client.list_objects_v2(Bucket=EVENT_ROOM_BUCKET, Prefix=EVENT_ROOM_KEY)['KeyCount']
+    event_r = []
+    if key_exists:
+        obj = s3_client.get_object(Bucket=EVENT_ROOM_BUCKET, Key=EVENT_ROOM_KEY)
+        event_r = obj['Body'].read().decode('utf-8').splitlines()
+        return event_r
+    else:
+        print("No Event room csv found, or it is empty. Please add event rooms if desired")
+        return event_r
+
+def hash_list():
+
+    key_exists = s3_client.list_objects_v2(Bucket=HASH_LIST_BUCKET, Prefix=HASH_LIST_KEY)['KeyCount']
+    hash_l = []
+    if key_exists:
+        #normalize the table information and sort by table number
+        hash_index = 5
+        obj = s3_client.get_object(Bucket=HASH_LIST_BUCKET, Key=HASH_LIST_KEY)
+        hash_l = obj['Body'].read().decode('utf-8').splitlines()
+        for i, h in enumerate(hash_l):
+            hash_l[i] = h.split(",")
+        if hash_l[0][0] == 'game-id':
+            hash_l.pop(0)
+        if len(hash_l) > 0:
+            hash_l.sort(key=lambda hashes: int(hashes[3]))
+            #remove everything but the hash url
+            for i, h in enumerate(hash_l):
+                hash_l[i] = h[hash_index]
+
+        return hash_l
+    else:
+        print("Please upload the csv file to the S3 bucket, see README")
+        return hash_l
