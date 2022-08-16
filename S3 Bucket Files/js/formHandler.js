@@ -50,6 +50,7 @@ $(document).ready(function() {
 
       $.ajax({
         type: 'POST',
+        //Api_Gateway_Endpoint
         url: 'Api_Gateway_Endpoint',
         dataType: "json",
         crossDomain: "true",
