@@ -95,7 +95,7 @@ def secondPass(max_teams, teams, attendeeId, customer, hash_l, room_list, firstN
                 # If team doesn't exist, continue as normal
                 except KeyError:
                     EEHash = hash_l[int(team_num)-1]
-                    print("New team attributes: ", createNewTeam(team_num, attendee_exp, EEHash, room_list, language))
+                    print("New team attributes: ", createNewTeam(team_num, awsExperience, EEHash, room_list, language))
                     registerTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
                     return [True, team_num]
 
@@ -175,7 +175,7 @@ def secondLanguagePass(max_teams, teams, attendeeId, customer, hash_l, room_list
                 # If team doesn't exist, continue as normal
                 except KeyError:
                     EEHash = hash_l[int(team_num)-1]
-                    print("New team attributes: ", createNewTeam(team_num, attendee_exp, EEHash, room_list, language))
+                    print("New team attributes: ", createNewTeam(team_num, awsExperience, EEHash, room_list, language))
                     registerTeamMember(attendeeId, team_num, customer, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
                     return [True, team_num]
 

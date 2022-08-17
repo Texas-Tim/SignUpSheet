@@ -23,14 +23,14 @@ s3_client = boto3.client('s3', region_name=AWS_REGION)
 
 #Conference Room, Hash, list of x flags
 
-def createNewTeam(team_num, attendee_exp, EEHash, room_list, language):
+def createNewTeam(team_num, awsExperience, EEHash, room_list, language):
     """
     creates a new team with 0 members
 
     Variables:
 
     team_num:     [int] - team number
-    attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
+    awsExperience: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
     """
     ddb_dict = {
         "Team":{"N":str(team_num)},
@@ -62,19 +62,19 @@ def createNewTeam(team_num, attendee_exp, EEHash, room_list, language):
             raise
         else:
             time.sleep(1)
-            return updateTeam(team_num, attendee_exp)
+            return updateTeam(team_num, awsExperience)
 
     except:
         return False
 
-def updateTeamTable(team_num, attendee_exp):
+def updateTeamTable(team_num, awsExperience):
     """
     Updates the existing team member count
 
     Variables:
 
     team_num:     [int] - team number
-    attendee_exp: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
+    awsExperience: [int] - experience of the registree [0 - none, 1 - low, 2 - low_mid, 3 - medium, 4 - mid_high, 5 - high]
     """
     print("Updating Team " + str(team_num))
 
@@ -83,9 +83,9 @@ def updateTeamTable(team_num, attendee_exp):
     try:
         #Set the correct experience attribute
         exp_level = ""
-        if attendee_exp <= 2:
+        if awsExperience <= 2:
             exp_level = "LowMembers"
-        elif attendee_exp == 3:
+        elif awsExperience == 3:
             exp_level = "MidMembers"
         else:
             exp_level = "HighMembers"
