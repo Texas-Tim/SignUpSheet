@@ -34,7 +34,7 @@ def createNewTeam(team_num, attendee_exp, EEHash, room_list, language):
     """
     ddb_dict = {
         "Team":{"N":str(team_num)},
-        "Hash": {"S": EEHash}
+        "Hash": {"S": EEHash},
         "Members":{"N":"0"},
         "LowMembers":{"N":"0"},
         "MidMembers":{"N":"0"},
