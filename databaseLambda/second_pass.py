@@ -16,10 +16,11 @@ TABLE_TEAM = os.environ.get('TEAM_TABLE')
 
 # Create a new DynamoDB resource and specify a region.
 ddb_client = boto3.client('dynamodb',region_name=AWS_REGION)
+#if l_flag is True, organize teams based on language first, then experience
+l_flag = eval(os.environ.get('LANGUAGE_FLAG'))
 
 
-
-def secondPass(max_teams, teams, attendeeId, customer, hash_l, room_list, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag):
+def secondPass(max_teams, teams, attendeeId, customer, hash_l, room_list, firstName, fullName, language, role, awsExperience, virtual, timeStamp):
 
     #Check for any flags
     if l_flag:

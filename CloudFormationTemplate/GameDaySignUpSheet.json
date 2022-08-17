@@ -1,11 +1,11 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
     "Parameters": {
-        "MaxTeams": {
+        "1MaxTeams": {
             "Description": "Maximum number of teams spun up in Event Engine",
             "Type": "String"
         },
-        "MainEventRoom": {
+        "2MainEventRoom": {
             "Description": "URL to main event room",
             "Type": "String"
         },
@@ -764,7 +764,7 @@
                 "Environment": {
                     "Variables": {
                         "MAX_NUM_TEAMS": {
-                            "Ref": "MaxTeams"
+                            "Ref": "1MaxTeams"
                         },
                         "REGION": {
                             "Ref": "DefaultRegion"
@@ -779,7 +779,7 @@
                             "Ref": "GameDayTeams"
                         },
                         "MAIN_CONFERENCE_ROOM": {
-                            "Ref": "MainEventRoom"
+                            "Ref": "2MainEventRoom"
                         },
                         "EVENT_ROOM_BUCKET": {
                             "Ref": "EventRoomFilesBucket"
@@ -1593,7 +1593,7 @@
                 "Environment": {
                     "Variables": {
                         "MAX_NUM_TEAMS": {
-                            "Ref": "MaxTeams"
+                            "Ref": "1MaxTeams"
                         },
                         "REGION": {
                             "Ref": "DefaultRegion"

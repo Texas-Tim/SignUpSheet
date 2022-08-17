@@ -27,9 +27,6 @@ HASH_LIST_KEY = os.environ.get('HASH_LIST_KEY')
 
 MAIN_CONFERENCE_ROOM = os.environ.get('MAIN_CONFERENCE_ROOM')
 
-#if l_flag is True, organize teams based on language first, then experience
-l_flag = os.environ.get('LANGUAGE_FLAG')
-
 
 # Create a new DynamoDB resource and specify a region.
 ddb_client = boto3.client('dynamodb', region_name=AWS_REGION)
@@ -74,7 +71,7 @@ def lambda_handler(event, context):
         print(f"Team distribution round: {team_distribution_round}")
 
         #Run up to three passes over the databases
-        result, team_num = team_registration(event, hash_l, event_r, l_flag, attendeeId, max_teams)
+        result, team_num = team_registration(event, hash_l, event_r, attendeeId, max_teams)
 
         #Grab the EE Hash for the appropriate team and the event room if applicable
         EEHash = hash_l[int(team_num)-1]
@@ -103,7 +100,7 @@ def lambda_handler(event, context):
         return 'Something wrong occurred in the code. All Teams are full or all passes failed'
 
 
-def team_registration(event, hash_l, event_r, l_flag, attendeeId, max_teams):
+def team_registration(event, hash_l, event_r, attendeeId, max_teams):
 
     #Grab the information from Sign up sheet
     firstName = event["firstName"]
@@ -120,20 +117,20 @@ def team_registration(event, hash_l, event_r, l_flag, attendeeId, max_teams):
     #initialize some useful variables
     fullName = firstName + " " + lastName
     teams = ddb_client.scan(TableName=TABLE_TEAM, ConsistentRead=True)['Items']
-    response = firstPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
+    response = firstPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
 
     #firstPass, strict team requirements
     if response[0]:
         print("first Pass Success!")
         return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
 
-    response = secondPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
+    response = secondPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
     #secondPass, avoids all low experience teams
     if response[0]:
         print("second pass Success!")
         return ['Successfully added attendee {} to the event.'.format(event['firstName']), response[1]]
 
-    response = thirdPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp, l_flag)
+    response = thirdPass(max_teams, teams, attendeeId, customer, hash_l, event_r, firstName, fullName, language, role, awsExperience, virtual, timeStamp)
     if response[0]:
     #finalPass, just fill the teams
         print("third pass Success!")
