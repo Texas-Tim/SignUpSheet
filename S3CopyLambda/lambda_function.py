@@ -8,6 +8,7 @@ DESTINATION_BUCKET = os.environ.get('DESTINATION_BUCKET')
 
 API_GATEWAY_FIRST_ENDPOINT = os.environ.get('API_GATEWAY_FIRST')
 API_GATEWAY_SECOND_ENDPOINT = os.environ.get('API_GATEWAY_SECOND')
+l_flag = os.environ.get('LANGUAGE_FLAG')
 
 s3_client = boto3.client('s3')
 
@@ -35,6 +36,12 @@ def lambda_handler(event, context):
                         response = s3_client.get_object(Bucket=SOURCE_BUCKET, Key=key)
                         data = response['Body'].read().decode('utf-8')
                         data = data.replace("Api_Gateway_Endpoint", API_GATEWAY_FIRST_ENDPOINT)
+                        if l_flag:
+                            data = data.replace("$('#languageid').prop('hidden', 'l_flag');", "$('#languageid').prop('hidden', true);")
+                            data = data.replace("$('#languagelabel').prop('hidden', 'l_flag');", "$('#languagelabel').prop('hidden', true);")
+                        else:
+                            data = data.replace("$('#languageid').prop('hidden', 'l_flag');", "$('#languageid').prop('hidden', false);")
+                            data = data.replace("$('#languagelabel').prop('hidden', 'l_flag');", "$('#languagelabel').prop('hidden', false);")
                         result = s3_client.put_object(
                             Body=data,
                             Bucket=DESTINATION_BUCKET,

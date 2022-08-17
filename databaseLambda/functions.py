@@ -62,7 +62,7 @@ def createNewTeam(team_num, awsExperience, EEHash, room_list, language):
             raise
         else:
             time.sleep(1)
-            return updateTeam(team_num, awsExperience)
+            return updateTeamTable(team_num, awsExperience)
 
     except:
         return False

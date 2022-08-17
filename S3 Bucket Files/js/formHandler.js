@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  $('#languageid').prop('hidden', 'l_flag');
+  $('#languagelabel').prop('hidden', 'l_flag');
 
   // Handle form submission.
   $("#yobutton").click(function(e) {
@@ -68,10 +70,10 @@ $(document).ready(function() {
           $("#joblabel").prop('hidden', true);
           $('#experienceid').prop('hidden', true);
           $('#experiencelabel').prop('hidden', true);
-          $('#languageid').prop('hidden', true);
-          $('#languagelabel').prop('hidden', true);
           $('#virtualid').prop('hidden', true);
           $('#virtuallabel').prop('hidden', true);
+          $('#languageid').prop('hidden', true);
+          $('#languagelabel').prop('hidden', true);
 
 
 

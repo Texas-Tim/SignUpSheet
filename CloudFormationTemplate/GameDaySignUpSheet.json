@@ -947,6 +947,9 @@
                                     ".amazonaws.com/V1/update"
                                 ]
                             ]
+                        },
+                        "LANGUAGE_FLAG":{
+                            "Ref": "SortByLanguage"
                         }
                     }
                 }
