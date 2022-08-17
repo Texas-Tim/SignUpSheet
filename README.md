@@ -8,15 +8,15 @@ AWS Game Day web application for use with customers the morning of the event as 
 1. Attempt to break things by changing common parameters such as team size, event rooms, etc...
 2. Reach out to specialist for AppSec guidance
 3. Check for code functionality with bulk subscribes
-5. Add functionality for updates to existing CloudFormation Template
 
 # TLDR
 
 1. Upload files from "S3 Bucket Files" to your own S3 Bucket
-2. Check the event breakout room links are up to date or delete the file (requires one link per team. If the file exists, it must have updated links)
-3. Run the **GameDaySignUpSheet** CFT template
-4. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT)
-5. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary
+2. Upload EE Hashes to the appropriate bucket folder (Dashboard/GameDay-teams.csv)
+3. Upload the Event Breakout Room links to the appropriate bucket folder, if applicable (EventRooms/EventRoomLinks.csv) **Optional**
+4. Run the **GameDaySignUpSheet** CFT template and fill out the main conference room URL and the maximum number of Game Day teams you will be initializing
+5. Provide the Cloudfront link to your attendees the morning of the event (found in the outputs section of the CFT)
+6. (During the event) Go to the secondary page, found in the outputs of the CFT to edit teams if necessary
 
 
 # Prerequisites
@@ -48,33 +48,33 @@ AWS Game Day web application for use with customers the morning of the event as 
 
 # CFT Parameters
 
+**1MaxTeams**: Maximum number of teams you expect at the event. This should be the number of attendees that have registered divided by 4 (or max team size)
+
+**2MainEventRoom**: Link to the main event room (Example https://company.zoom.us/u/abte3F12Rq)
+
 **APIGatewayEndpointType**: Type REGIONAL for local events and EDGE for world-wide events. Refers to the Cloudfront caching strategy
 
 **DefaultRegion**: Main region for your stack, should be in the same region as your SES verified email
 
-**EventRoomFilesBucket**: Bucket you're using to store your Event room files in. I used the same bucket as the Website files
-
 **EventRoomFileKey**: Do not change
 
-**HashListFilesBucket**: Bucket you're using to store your Hash List files in. I used the same bucket as the Website files
+**EventRoomFilesBucket**: Bucket you're using to store your Event room files in. I used the same bucket as the Website files
 
 **HashListFileKey**: Do not change
+
+**HashListFilesBucket**: Bucket you're using to store your Hash List files in. I used the same bucket as the Website files
 
 **LambdaFilesBucket**: Bucket you're using to store your Lambda files in. I used the same bucket as the Website files
 
 **LambdaZipNameDatabase**: Do not change
 
-**LambdaZipNameEmail**: Do not change
-
 **LambdaZipNameTeamChange**: Do not change
 
 **LambdaZipNameWebsite**: Do not change
 
-**MainEventRoom**: Link to the main event room (Example https://company.zoom.us/u/abte3F12Rq)
-
 **MaxTeamSize**: Maximum number of participants per team, default of 4
 
-**MaxTeams**: Maximum number of teams you expect at the event. This should be the number of attendees that have registered divided by 4 (or max team size)
+**SortByLanguage**: True or False flag initializing whether to sort teams by language first, then by experience
 
 **SourceBucket**: Bucket you're storing the website files in. I used the same bucket as the Lambda files
 
